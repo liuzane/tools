@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quick Amount</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ol, ul {
+      list-style: none;
+    }
+
+    input {
+      width: 180px;
+    }
+
+    .container {
+      width: 414px;
+      margin: 0 auto;
+    }
+
+    .input-item {
+      margin: 15px 0;
+    }
+
+    .input-item > label {
+      display: inline-block;
+      width: 160px;
+    }
+
+    #input-min,
+    #input-max {
+      width: 80px;
+    }
+
+    .canvas-wrap {
+      width: 100%;
+      margin-top: 50px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul>
+      <li class="input-item">
+        <label>请输入总金额</label>：
+        <input id="input-amount" type="text" />
+      </li>
+      <li class="input-item">
+        <label>请输入笔数</label>：
+        <input id="input-count" type="text" />
+      </li>
+      <li class="input-item">
+        <label>请输入上下浮动数</label>：
+        <input id="input-floating" type="text" />
+      </li>
+    </ul>
+
+    <div class="canvas-wrap">
+      <canvas id="amount-picture" width="414" />
+    </div>
+  </div>
+
+  <script>
+    var params = {
+      amount: 0,
+      count: 0,
+      floating: 0,
+    };
+    var moneyList = [];
+    var EleAmount = document.getElementById('input-amount');
+    var EleCount = document.getElementById('input-count');
+    var EleFloating = document.getElementById('input-floating');
+    var amountPicture = document.getElementById("amount-picture");
+    var ctx = amountPicture.getContext("2d");
+    var width = amountPicture.width;
+    var render = function(list) {
+      var lineHeight = 28;
+      var headerHeight = 64;
+      var footerHeight = lineHeight * 2;
+      var centerWidth = width / 2;
+      var total = 0;
+      var index = 0;
+      amountPicture.height = list.length * lineHeight + lineHeight + footerHeight * 2;
+      ctx.textAlign = 'center';
+      ctx.shadowColor = '#2e2e2e';
+      ctx.shadowBlur = '1';
+      ctx.font = '100 18px -apple-system,BlinkMacSystemFont';
+      ctx.fillStyle = '#ff6766';
+      ctx.fillText('养卡周期金额', centerWidth, headerHeight / 2);
+      ctx.font = '100 14px -apple-system,BlinkMacSystemFont';
+      ctx.fillStyle = '#666666';
+      for (var i = 0; i < list.length; i++) {
+        index = i + 1;
+        var text = '第 ' + (index < 10 ? '0' + index : index) + ' 笔金额： ' + list[i];
+        ctx.fillText(text, centerWidth, headerHeight + lineHeight * index - lineHeight / 2);
+        total += list[i];
+      }
+      var footerPosition = headerHeight + lineHeight * index;
+      var date = new Date().getFullYear() + ' 年 ' + (new Date().getMonth() + 1) + ' 月 ' + new Date().getDate() + ' 日';
+      ctx.fillStyle = '#ff6766';
+      ctx.fillText('合计： ' + total, centerWidth, footerPosition + footerHeight / 2);
+      ctx.fillText('日期： ' + date, centerWidth, footerPosition + lineHeight + footerHeight / 2);
+    };
+    var computed = function(e, key) {
+      event = e || window.event;
+      var value = Number(event.target.value);
+      if (!value && value !== 0) return;
+      params[key] = value;
+      
+      var amount = params.amount;
+      var count = params.count;
+      var floating = params.floating;
+      if (!amount || !count || !floating) return;
+      var average = Math.floor(amount / count);
+      moneyList = [];
+      for (var i = 0; i < count; i++) {
+        var singleAmount = average + Math.floor(Math.random() * floating * 2 - floating);
+        amount -= singleAmount;
+        moneyList.push(singleAmount);
+      }
+      console.log('average', average);
+      console.log('moneyList', moneyList);
+
+      render(moneyList);
+    };
+
+    // var testArr = [1004, 992, 991, 992, 995, 992, 1006, 993, 995, 997];
+    // render(testArr);
+
+
+    EleAmount.oninput = function(e) {
+      computed(e, 'amount');
+    };
+
+    EleCount.oninput = function(e) {
+      computed(e, 'count');
+    };
+
+    EleFloating.oninput = function(e) {
+      computed(e, 'floating');
+    };
+  </script>
+</body>
+</html>
