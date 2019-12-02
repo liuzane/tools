@@ -1,0 +1,20 @@
+{
+  "root": true,
+
+  "env": {
+    "node": true
+  },
+
+  "extends": [
+    "plugin:vue/essential",
+    "eslint:recommended"
+  ],
+
+  "parserOptions": {
+    "parser": "babel-eslint"
+  },
+
+  "rules": {
+    //这里写自定义规则
+  }
+}
