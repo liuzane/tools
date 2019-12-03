@@ -1,5 +1,5 @@
 // 验证数据类型
-export function typeOf (obj) {
+export function typeOf(obj) {
   const toString = Object.prototype.toString;
   const map = {
     '[object Boolean]': 'boolean',
@@ -14,11 +14,11 @@ export function typeOf (obj) {
     '[object Object]': 'object'
   };
 
-  return map[ toString.call(obj) ];
+  return map[toString.call(obj)];
 }
 
 // 深拷贝
-export function deepCopy (data) {
+export function cloneDeep(data) {
   const type = typeOf(data);
   let object;
 
@@ -31,13 +31,13 @@ export function deepCopy (data) {
   }
 
   if (type === 'array') {
-    for (let i = 0; i < data.length; i ++) {
-      object.push(deepCopy(data[i]));
+    for (let i = 0; i < data.length; i++) {
+      object.push(cloneDeep(data[i]));
     }
   } else if (type === 'object') {
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        object[key] = deepCopy(data[key]);
+        object[key] = cloneDeep(data[key]);
       }
     }
   }

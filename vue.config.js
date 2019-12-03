@@ -1,7 +1,21 @@
+const path = require('path');
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
 module.exports = {
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@': resolve('src'),
+      }
+    },
+  },
+
   pages: {
     index: {
-      entry: 'src/pages/index/main.js',
+      entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
       title: 'Tools',
