@@ -10,7 +10,7 @@
           <th colspan="2">Credit Card Amount</th>
         </tr>
         <tr>
-          <th align="center" width="90px">Date</th>
+          <th align="center" width="100px">Date</th>
           <th align="left">Amount</th>
         </tr>
       </thead>
