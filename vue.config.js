@@ -5,6 +5,8 @@ function resolve(dir) {
 }
 
 module.exports = {
+  publicPath: './',
+
   configureWebpack: {
     resolve: {
       alias: {
@@ -21,12 +23,21 @@ module.exports = {
       title: 'Tools',
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
     },
-    amount: {
-      entry: 'src/pages/amount/main.js',
+
+    'credit-card-amount': {
+      entry: 'src/pages/credit-card-amount/main.js',
       template: 'public/index.html',
-      filename: 'amount.html',
-      title: 'Amount',
-      chunks: ['chunk-vendors', 'chunk-common', 'amount'],
+      filename: 'credit-card-amount.html',
+      title: 'Credit Card Amount',
+      chunks: ['chunk-vendors', 'chunk-common', 'credit-card-amount'],
+    },
+
+    'mcc-query': {
+      entry: 'src/pages/mcc-query/main.js',
+      template: 'public/index.html',
+      filename: 'mcc-query.html',
+      title: 'Mcc Query',
+      chunks: ['chunk-vendors', 'chunk-common', 'mcc-query'],
     },
   },
 };
