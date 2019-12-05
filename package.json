@@ -2,10 +2,12 @@
   "name": "tools",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://liuzane.github.io/tools",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "vue-cli-service build & gh-pages -d dist -m \"Update GitHub Pages\""
   },
   "dependencies": {
     "core-js": "^3.4.3",
@@ -19,6 +21,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gh-pages": "^2.1.1",
     "vue-template-compiler": "^2.6.10"
   },
   "browserslist": [

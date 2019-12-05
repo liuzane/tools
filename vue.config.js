@@ -7,8 +7,6 @@ function resolve(dir) {
 module.exports = {
   publicPath: './',
 
-  outputDir: 'docs',
-
   productionSourceMap: false,
 
   configureWebpack: {

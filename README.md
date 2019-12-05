@@ -1,2 +1,2 @@
-# [Tools](https://liuzane.github.io/tools/)
+# [Tools](https://liuzane.github.io/tools)
 a tools site
