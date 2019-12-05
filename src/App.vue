@@ -1,29 +1,68 @@
 <template>
   <section class="container">
-    <header>header</header>
-    <section>
-      <ul>
-        <li>
-          <a href="./credit-card-amount.html">Credit Card Amount</a>
-        </li>
+    <header class="header">
+      <Title>Tools</Title>
+    </header>
 
-        <li>
-          <a href="./mcc-query.html">MCC Query</a>
-        </li>
-      </ul>
+    <section class="content">
+      <a
+        v-for="(tool, index) in tools"
+        :key="index"
+        :href="tool.link"
+      >
+        {{ tool.title }}
+      </a>
     </section>
-    <footer>footer</footer>
   </section>
 </template>
 
 <script>
-export default {
-  name: 'App',
-};
+  // 公共组件
+  import Title from '@/components/Title';
+
+  export default {
+    name: 'App',
+
+    components: {
+      Title,
+    },
+
+    data() {
+      return {
+        tools: [
+          {
+            title: 'Credit Card Amount',
+            link: './credit-card-amount.html',
+          },
+          {
+            title: 'MCC Query',
+            link: './mcc-query.html',
+          },
+        ],
+      };
+    },
+  };
 </script>
 
 <style>
-.container {
-  text-align: center;
-}
+  .container {
+    height: 100%;
+    text-align: center;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .content {
+    margin-top: 2rem;
+  }
+
+  .content a {
+    display: block;
+    margin: 1rem 0;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 100;
+  }
 </style>

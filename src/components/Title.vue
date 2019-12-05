@@ -8,11 +8,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
   .title {
     font-size: 2.4rem;
     font-weight: 100;
     text-align: center;
-    margin-top: 1rem;
+    padding-top: 1rem;
   }
 </style>
