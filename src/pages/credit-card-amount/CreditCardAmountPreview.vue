@@ -10,8 +10,8 @@
           <th colspan="2">Credit Card Amount</th>
         </tr>
         <tr>
-          <th align="center" width="100px">Date</th>
-          <th align="left">Amount</th>
+          <th align="center" style="min-width: 90px">Date</th>
+          <th>Amount</th>
         </tr>
       </thead>
 
@@ -23,20 +23,29 @@
       </tbody>
 
       <tfoot>
-        <tr class="total-item">
+        <tr>
           <td align="right">Total Amount</td>
           <td>{{ data.totalAmount }}</td>
         </tr>
-        <tr class="total-item">
+        <tr>
           <td align="right">Total Count</td>
           <td>{{ data.totalCount }}</td>
         </tr>
-        <tr class="total-item">
+        <tr>
           <td align="right">Crated Date</td>
           <td>{{ new Date().format('YYYY.MM.DD') }}</td>
         </tr>
       </tfoot>
     </table>
+
+    <div
+      v-if="pictureVisible"
+      class="picture-frame"
+      @click="pictureVisible = false"
+    >
+      <p class="pictrue-tooltip">Long press to save the picture</p>
+      <img class="picture-img" :src="pictrue" alt="">
+    </div>
 
     <div class="wrapper">
       <button class="button" @click="handleExportPicture">Export Picture</button>
@@ -58,6 +67,13 @@
       data: Object,
     },
 
+    data() {
+      return {
+        pictrue: '',
+        pictureVisible: false,
+      };
+    },
+
     methods: {
       handleExportPicture() {
         const EleTable = this.$refs.table;
@@ -73,32 +89,16 @@
           (canvas) => {
             EleTable.className = 'table';
             const picture = canvas.toDataURL('image/png');
-            const blob = this.base64ToBlob(picture);
-            const url = URL.createObjectURL(blob);
 
             if (navigator.userAgent.match(/(iPhone|iPod|Android|ios|SymbianOS)/i)) {
-              window.location.href = url;
+              this.pictrue = picture;
+              this.pictureVisible = true;
             } else {
-              download(new Date().format('YYYY-MM-DD.png'), url);
+              download(new Date().format('YYYY-MM-DD.png'), picture);
             }
           }
         );
       },
-
-      base64ToBlob(code) {
-        const parts = code.split(';base64,');
-        const contentType = parts[0].split(':')[1];
-        const raw = window.atob(parts[1]);
-        const rawLength = raw.length;
-
-        let uInt8Array = new Uint8Array(rawLength);
-
-        for (let i = 0; i < rawLength; ++i) {
-          uInt8Array[i] = raw.charCodeAt(i);
-        }
-
-        return new Blob([uInt8Array], {type: contentType});
-      }
     },
   };
 </script>
@@ -124,11 +124,30 @@
   }
 
   .table th,
-  .total-item {
+  .table tfoot td {
     font-weight: 600;
   }
 
-  .total-item {
+  .picture-frame {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 
+  .pictrue-tooltip {
+    color: #fff;
+    font-size: 1rem;
+    margin: 1rem 0 ;
+  }
+
+  .picture-img {
+    width: 75%;
   }
 </style>

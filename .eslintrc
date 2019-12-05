@@ -36,7 +36,7 @@
     /* Best Practices 这些规则是关于最佳实践的，帮助你避免一些问题 */
     "block-scoped-var": "error", // 强制把变量的使用限制在其定义的作用域范围内
     "eqeqeq": "error", // 要求或禁止文件末尾存在空行
-    "no-alert": "error", // 禁止使用alert confirm prompt
+    "no-alert": "off", // 禁止使用alert confirm prompt
     "no-invalid-this": "off", // 禁止无效的this，只能用在构造器，类，对象字面量
     "no-lone-blocks": "off", // 禁止不必要的嵌套块
     "no-multi-spaces": "error", // 禁止使用多个空格

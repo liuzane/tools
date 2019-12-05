@@ -8,11 +8,11 @@ import '@/utils/prototypes';
 import '@/styles';
 
 // 组件
-import MccQuery from './MccQuery.vue';
+import MCCQuery from './MCCQuery.vue';
 
 // 配置
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(MccQuery),
+  render: h => h(MCCQuery),
 }).$mount('#app');

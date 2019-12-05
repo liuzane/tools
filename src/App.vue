@@ -8,7 +8,7 @@
         </li>
 
         <li>
-          <a href="./mcc-query.html">Mcc Query</a>
+          <a href="./mcc-query.html">MCC Query</a>
         </li>
       </ul>
     </section>

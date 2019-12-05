@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Credit Card Amount</h1>
+    <Title>Credit Card Amount</Title>
     <div class="wrapper">
       <CreditCardAmountOptions @update="update"/>
       <CreditCardAmountSetting :list="data.amountList" @update="update"/>
@@ -10,6 +10,9 @@
 </template>
 
 <script>
+  // 公共组件
+  import Title from '@/components/Title';
+
   // 组件
   import CreditCardAmountOptions from './CreditCardAmountOptions';
   import CreditCardAmountSetting from './CreditCardAmountSetting';
@@ -19,6 +22,7 @@
     name: 'CreditCardAmount',
 
     components: {
+      Title,
       CreditCardAmountOptions,
       CreditCardAmountSetting,
       CreditCardAmountPreview,
