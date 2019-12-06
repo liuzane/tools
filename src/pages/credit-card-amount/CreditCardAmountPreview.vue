@@ -8,7 +8,7 @@
           <th colspan="2">Credit Card Amount</th>
         </tr>
         <tr>
-          <th align="center" style="min-width: 90px">Date</th>
+          <th align="center" style="min-width: 100px">Date</th>
           <th>Amount</th>
         </tr>
       </thead>
@@ -105,6 +105,7 @@
   }
 
   .table {
+    max-width: 320px;
     margin: 1rem auto;
     border-right: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;

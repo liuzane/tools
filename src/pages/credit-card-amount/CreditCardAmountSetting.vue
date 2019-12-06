@@ -47,8 +47,8 @@
         let totalCount = 0;
 
         this.data.forEach(dateItem => {
-          const moneys = dateItem.moneys.split('、');
-          totalAmount += Number(moneys.reduce((previousValue, currentValue) => (Number(previousValue) + Number(currentValue))));
+          const moneys = dateItem.moneys ? dateItem.moneys.split('、') : [];
+          totalAmount += Number(moneys.reduce((previousValue, currentValue) => (Number(previousValue) + Number(currentValue)), 0));
           totalCount += moneys.length;
         });
 
