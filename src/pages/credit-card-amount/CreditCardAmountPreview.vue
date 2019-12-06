@@ -1,8 +1,6 @@
 <template>
-  <div style="width: 100%;">
-    <div class="wrapper">
-      <h2 class="subtitle">Preview</h2>
-    </div>
+  <div class="preview">
+    <h2 class="subtitle">Preview</h2>
 
     <table ref="table" class="table">
       <thead>
@@ -32,7 +30,7 @@
           <td>{{ data.totalCount }}</td>
         </tr>
         <tr>
-          <td align="right">Crated Date</td>
+          <td align="right">Create Date</td>
           <td>{{ new Date().format('YYYY.MM.DD') }}</td>
         </tr>
       </tfoot>
@@ -47,9 +45,7 @@
       <img class="picture-img" :src="pictrue" alt="">
     </div>
 
-    <div class="wrapper">
-      <button class="button" @click="handleExportPicture">Export Picture</button>
-    </div>
+    <button class="button" @click="handleExportPicture">Export Picture</button>
   </div>
 </template>
 
@@ -104,8 +100,12 @@
 </script>
 
 <style>
+  .preview {
+    margin-bottom: 100px;
+  }
+
   .table {
-    margin: 0 auto;
+    margin: 1rem auto;
     border-right: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;
   }

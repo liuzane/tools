@@ -4,8 +4,8 @@
     <div class="wrapper">
       <CreditCardAmountOptions @update="update"/>
       <CreditCardAmountSetting :list="data.amountList" @update="update"/>
+      <CreditCardAmountPreview :data="data" />
     </div>
-    <CreditCardAmountPreview :data="data" />
   </div>
 </template>
 
@@ -47,13 +47,6 @@
 </script>
 
 <style>
-  .title {
-    font-size: 2.4rem;
-    font-weight: 100;
-    text-align: center;
-    margin-top: 1rem;
-  }
-
   .subtitle {
     font-size: 1.2rem;
     font-weight: 100;
