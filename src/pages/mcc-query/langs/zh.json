@@ -1,0 +1,9 @@
+{
+  "title": "MCC查询",
+  "keywords": "MCC查询, MCC码, 商户类别名称",
+  "description": "MCC查询是一个查询商户类别代码和名称的工具。",
+  "placeholder": "请输入关键词",
+  "code": "MCC码",
+  "name": "商户类别名称",
+  "rate": "费率"
+}

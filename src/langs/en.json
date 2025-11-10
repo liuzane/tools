@@ -1,0 +1,9 @@
+{
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "menus": {
+    "home": "Home",
+    "mcc-query": "MCC Query",
+    "credit-card-swiping-plan": "Credit Card Swiping Plan"
+  }
+}

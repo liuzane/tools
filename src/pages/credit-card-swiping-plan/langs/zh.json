@@ -1,0 +1,59 @@
+{
+  "title": "信用卡刷卡计划",
+  "keywords": "信用卡刷卡计划, 信用卡, 刷卡计划",
+  "description": "信用卡刷卡计划是一个帮助您计划信用卡刷卡计划的工具。",
+  "settings": {
+    "title": "设置",
+    "total-amount-limit": "总金额上限",
+    "work-days": {
+      "title": "工作日",
+      "daily-count": "单日笔数",
+      "min-money": "最小金额",
+      "max-money": "最大金额"
+    },
+    "weekend-days": {
+      "title": "周末",
+      "daily-count": "单日笔数",
+      "min-money": "最小金额",
+      "max-money": "最大金额"
+    },
+    "begin-date": "开始日期",
+    "date-format": "日期格式",
+    "date-format-modes": {
+      "local-lang-with-weekday": "YYYY年MM月DD日周dd",
+      "dash-format-with-weekday": "YYYY-MM-DD 周dd",
+      "slash-format-with-weekday": "YYYY/MM/DD 周dd",
+      "local-lang-format": "YYYY年MM月DD日",
+      "dash-format": "YYYY-MM-DD",
+      "slash-format": "YYYY/MM/DD"
+    },
+    "is-float": "启用小数",
+    "lang-local": "zh-CN",
+    "currency": "CNY",
+    "money-separator": "、",
+    "remark-separator": "；",
+    "button": "生成数据"
+  },
+  "data-adjust": {
+    "title": "数据",
+    "button": "预览数据"
+  },
+  "preview": {
+    "title": "预览",
+    "table": {
+      "date": "日期",
+      "moneys": "金额",
+      "remark": "备注",
+      "total-amount": "总金额",
+      "total-count": "总笔数",
+      "create-time": "创建时间"
+    },
+    "export-type": "导出类型",
+    "export-types": {
+      "image": "图片",
+      "excel": "Excel",
+      "text": "纯文本"
+    },
+    "export-button": "导出数据"
+  }
+}

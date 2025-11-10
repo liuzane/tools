@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="<%= lang %>">
+<%- 
+  include('../../layout/head.ejs', {
+    css: [
+      '/css/reset.css',
+      '/css/global.css',
+      '/css/home.css',
+    ]
+  });
+%>
+<body>
+  <main>
+    <header class="header">
+      <h1 class="title"><%= _t('title') %></h1>
+    </header>
+    <nav class="menus">
+    <%
+      const baseUrl = `${ORIGIN_URL}/${lang}`;
+      const noHomeMenus = menus.filter(menu => !menu.title.endsWith('.home'));
+      for (const menu of noHomeMenus) { 
+    %>
+      <a href="<%- baseUrl + menu.url %>"><%= _t(menu.title) %></a>
+    <% } %>
+    </nav>
+  </main>
+</body>
+</html>

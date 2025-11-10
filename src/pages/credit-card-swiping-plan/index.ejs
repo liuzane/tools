@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang='<%= lang %>'>
+<%- 
+  include('../../layout/head.ejs', {
+    css: [
+      '/css/reset.css',
+      '/css/global.css',
+      '/css/layout.css',
+      `/css/${name}.css`,
+    ]
+  });
+%>
+<body>
+  <main class="container">
+    <aside class="aside">
+      <%- include('../../layout/menus.ejs') %>
+    </aside>
+    <section class="content">
+      <h1 class="title"><%= _t('title') %></h1>
+      <div class="wrapper">
+        <!-- 设置选项 -->
+         <section class="section">
+          <h2 class="subtitle"><%= _t('settings.title') %></h2>
+          <ul class="settings">
+            <li class="setting-item">
+              <label for="total-amount-limit" class="setting-label"><%= _t('settings.total-amount-limit') %></label>
+              <span class="colon">:</span>
+              <input id="total-amount-limit" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <label for="workday-daily-count" class="setting-label"><%= _t('settings.work-days.title') %></label>
+              <span class="colon">:</span>
+              <label for="workday-daily-count" class="setting-sublabel"><%= _t('settings.work-days.daily-count') %></label>
+              <span class="colon">:</span>
+              <input id="workday-daily-count" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="workday-min-money" class="setting-sublabel"><%= _t('settings.work-days.min-money') %></label>
+              <span class="colon">:</span>
+              <input id="workday-min-money" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="workday-max-money" class="setting-sublabel"><%= _t('settings.work-days.max-money') %></label>
+              <span class="colon">:</span>
+              <input id="workday-max-money" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <label for="weekend-daily-count" class="setting-label"><%= _t('settings.weekend-days.title') %></label>
+              <span class="colon">:</span>
+              <label for="weekend-daily-count" class="setting-sublabel"><%= _t('settings.weekend-days.daily-count') %></label>
+              <span class="colon">:</span>
+              <input id="weekend-daily-count" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="weekend-min-money" class="setting-sublabel"><%= _t('settings.weekend-days.min-money') %></label>
+              <span class="colon">:</span>
+              <input id="weekend-min-money" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="weekend-max-money" class="setting-sublabel"><%= _t('settings.weekend-days.max-money') %></label>
+              <span class="colon">:</span>
+              <input id="weekend-max-money" class="flex-input" type="text" />
+            </li>
+            <li class="setting-item">
+              <label for="begin-date" class="setting-label"><%= _t('settings.begin-date') %></label>
+              <span class="colon">:</span>
+              <input id="begin-date" class="flex-input" type="date" />
+            </li>
+            <li class="setting-item">
+              <label for="date-format" class="setting-label"><%= _t('settings.date-format') %></label>
+              <span class="colon">:</span>
+               <%
+                  const dateFormatOptions = [];
+                  for (const key of Object.keys(langData['settings']['date-format-modes'])) {
+                    dateFormatOptions.push({ key: key, value: _t('settings.date-format-modes.' + key) });
+                  }
+                %>
+               <select id="date-format" class="flex-input" value="<%= dateFormatOptions[0].key %>" onchange="onDateFormatChange(event)">
+                <% for (const item of dateFormatOptions) { %>
+                <option value="<%= item.key %>"><%= item.value %></option>
+                <% } %>
+               </select>
+            </li>
+            <li class="setting-item">
+              <label for="is-float" class="setting-label"><%= _t('settings.is-float') %></label>
+              <span class="colon">:</span>
+              <input id="is-float" type="checkbox">
+            </li>
+          </ul>
+          <input id="lang-local" type="hidden" value="<%= _t('settings.lang-local') %>" />
+          <input id="currency" type="hidden" value="<%= _t('settings.currency') %>" />
+          <input id="money-separator" type="hidden" value="<%= _t('settings.money-separator') %>" />
+          <input id="remark-separator" type="hidden" value="<%= _t('settings.remark-separator') %>" />
+          <div class="section-footer">
+            <button class="button" onclick="onCreateData()"><%= _t('settings.button') %></button>
+          </div>
+         </section>
+
+        <!-- 数据调整 -->
+        <section class="section">
+          <h2 class="subtitle"><%= _t('data-adjust.title') %></h2>
+          <ul id="data-list"></ul>
+          <div class="section-footer">
+            <button class="button" onclick="onPreview()"><%= _t('data-adjust.button') %></button>
+          </div>
+        </section>
+
+        <!-- 预览 -->
+        <div class="preview">
+          <h2 class="subtitle"><%= _t('preview.title') %></h2>
+        </div>
+      </div>
+
+      <!-- 预览表格 -->
+      <div class="table-scroller">
+        <table id="preview-table" class="table">
+          <colgroup>
+            <col>
+            <col id="preview-moneys-col">
+            <col id="preview-remark-col">
+          </colgroup>
+          <thead>
+            <tr>
+              <th colspan="3" align="center"><%= _t('title') %></th>
+            </tr>
+            <tr>
+              <th><%= _t('preview.table.date') %></th>
+              <th><%= _t('preview.table.moneys') %></th>
+              <th><%= _t('preview.table.remark') %></th>
+            </tr>
+          </thead>
+          <tbody id="preview-table-body"></tbody>
+          <tfoot>
+            <tr>
+              <td align="right"><%= _t('preview.table.total-amount') %></td>
+              <td colspan="2" id="total-amount">0.00</td>
+            </tr>
+            <tr>
+              <td align="right"><%= _t('preview.table.total-count') %></td>
+              <td colspan="2" id="total-count">0</td>
+            </tr>
+            <tr>
+              <td align="right"><%= _t('preview.table.create-time') %></td>
+              <td colspan="2" id="create-time"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- 预览区域底部 -->
+      <div class="preview-footer">
+        <div class="setting-item">
+          <label for="export-type" class="setting-label"><%= _t('preview.export-type') %></label>
+          <span class="colon">:</span>
+          <%
+            const exportTypeOptions = [];
+            for (const key of Object.keys(langData['preview']['export-types'])) {
+              exportTypeOptions.push({ key: key, value: _t('preview.export-types.' + key) });
+            }
+          %>
+          <select id="export-type" value="<%= exportTypeOptions[0].key %>" onchange="onExportTypeChange(event)">
+            <% for (const item of exportTypeOptions) { %>
+            <option value="<%= item.key %>"><%= item.value %></option>
+            <% } %>
+          </select>
+          <button class="button" onclick="onExportData()"><%= _t('preview.export-button') %></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 数据项模板 -->
+  <template id="template-data-item">
+    <li class="data-item">
+      <label for="money" class="data-label"></label>
+      <span class="colon">:</span>
+      <input id="money" class="flex-input" type="text" value="" />
+    </li>
+  </template>
+
+  <!-- 表格行模板 -->
+  <template id="template-preview-table-row">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </template>
+
+  <% if (mode === 'development') { %>
+  <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/performance-observer.js"></script>
+  <% } %>
+  <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/<%- name %>.js"></script>
+</body>
+</html>

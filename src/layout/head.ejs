@@ -1,0 +1,21 @@
+<head>
+  <meta charset="utf-8" />
+  <% if (langData['keywords']) { %>
+  <meta name="keywords" content="<%= _t('keywords') %>">
+  <% } %>
+  <% if (langData['description']) { %>
+  <meta name="description" content="<%= _t('description') %>">
+  <% } %>
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title><%= _t('title') %></title>
+  <% langs.forEach(langName => { %>
+  <link rel="alternate" href="<%- `${ORIGIN_URL}/${langName}/${name}` %>.html" hreflang="<%- langName %>" />
+  <% }); %>
+  <link rel="alternate" href="<%- `${ORIGIN_URL}/${lang}/${name}` %>" hreflang="x-default" />
+  <link rel="canonical" href="<%- ORIGIN_URL %>" />
+  <link rel="shortcut icon" href="<%- ORIGIN_URL %>/favicon.ico">
+  <% css.forEach(path => { %>
+  <link rel="stylesheet" href="<%- ORIGIN_URL + path %>" />
+  <% }); %>
+</head>

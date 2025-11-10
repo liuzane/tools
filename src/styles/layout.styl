@@ -1,0 +1,68 @@
+.container
+  display: flex
+  // background-color: color-seasalt
+  // background-color: #f8f9fa
+
+.content
+  flex: 1
+  padding: 1rem
+  overflow: auto
+
+
+.menus
+  overflow: auto
+
+
+.menu-item
+  display: block
+  border-radius: 0.4rem
+  font-weight: 300
+  text-align: center
+  transition: all 0.2s ease-in-out
+
+  &:hover
+    background-color: color-antiflash-white
+
+
+@media mq-large-mobile
+  .container
+    flex-direction: column
+
+
+  .aside
+    border-right: none
+    border-bottom: 1px dashed color-onyx
+    padding: 0
+    width: 100%
+    height: 40px
+
+
+  .menus
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 100%
+
+  .menu-item
+    margin: 0 0.4rem
+    padding: 0 0.4rem
+    font-size: 1rem
+
+
+mq-large-screen = mq-tablet + ', ' + mq-desktop + ', ' + mq-large-desktop
+
+@media mq-large-screen
+  .container
+    flex-direction: row
+
+  
+  .aside
+    border-right: 1px solid color-onyx
+    padding: 1rem
+    width: 200px
+
+
+  .menu-item
+    margin: 0.4rem 0
+    padding: 0.4rem 0
+    font-size: 1.2rem

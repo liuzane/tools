@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+</head>
+<body>
+  <script>
+    // 等待DOM加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      var langs = '<%= langs.join(",") %>'.split(',');
+      var localLang = localStorage.getItem('language');
+      var pathLang = '';
+      
+      // 优先使用本地存储的语言设置
+      if (localLang) {
+        for (var k = 0; k < langs.length; k++) {
+          if (langs[k] === localLang) {
+            pathLang = langs[k];
+            break;
+          }
+        }
+      } else {
+        // 使用浏览器语言设置
+        var browserLang = navigator.language.split('-')[0];
+        for (var m = 0; m < langs.length; m++) {
+          if (langs[m] === browserLang) {
+            pathLang = langs[m];
+            break;
+          }
+        }
+      }
+
+      // 如果没有检测到则使用第一个支持的语言
+      if (!pathLang) {
+        pathLang = langs[0];
+      }
+
+      // 重定向到支持的语言路径
+      window.location.href = '<%= ORIGIN_URL %>/' + pathLang + '/home.html';
+      return;
+    });
+  </script>
+</body>
+</html>

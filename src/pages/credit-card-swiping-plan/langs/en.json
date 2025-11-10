@@ -1,0 +1,59 @@
+{
+  "title": "Credit Card Swiping Plan",
+  "keywords": "Credit Card Swiping Plan, Credit Card, Swiping Plan",
+  "description": "Credit Card Swiping Plan is a tool to help you plan your credit card swiping schedule.",
+  "settings": {
+    "title": "Settings",
+    "total-amount-limit": "Total Amount Limit",
+    "work-days": {
+      "title": "Workday",
+      "daily-count": "Daily Count",
+      "min-money": "Min Money",
+      "max-money": "Max Money"
+    },
+    "weekend-days": {
+      "title": "Weekend",
+      "daily-count": "Daily Count",
+      "min-money": "Min Money",
+      "max-money": "Max Money"
+    },
+    "begin-date": "Begin Date",
+    "date-format": "Date Format",
+    "date-format-modes": {
+      "local-lang-with-weekday": "Week, Month Day, Year",
+      "dash-format-with-weekday": "MM-DD-YYYY Week",
+      "slash-format-with-weekday": "MM/DD/YYYY Week",
+      "local-lang-format": "Month Day, Year",
+      "dash-format": "MM-DD-YYYY",
+      "slash-format": "MM/DD/YYYY"
+    },
+    "is-float": "Enable Float",
+    "lang-local": "en-US",
+    "currency": "USD",
+    "money-separator": ", ",
+    "remark-separator": ";",
+    "button": "Create Data"
+  },
+  "data-adjust": {
+    "title": "Data",
+    "button": "Preview"
+  },
+  "preview": {
+    "title": "Preview",
+    "table": {
+      "date": "Date",
+      "moneys": "Moneys",
+      "remark": "Remark",
+      "total-amount": "Total Amount",
+      "total-count": "Total Count",
+      "create-time": "Create Time"
+    },
+    "export-type": "Export Type",
+    "export-types": {
+      "image": "Image",
+      "excel": "Excel",
+      "text": "Text"
+    },
+    "export-button": "Export Data"
+  }
+}

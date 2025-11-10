@@ -1,0 +1,133 @@
+max-width = 430px
+
+// 容器样式
+.wrapper
+  width: max-width
+  margin: 4rem auto 0 auto
+
+
+// 区域样式
+.section
+  margin-top: 1.5rem
+
+
+// 副标题样式
+.subtitle
+  margin-bottom: 1.5rem
+  font-size: 1.4rem
+  font-weight: 300
+
+
+// 冒号样式
+.colon
+  margin: 0 0.4rem
+
+
+// 弹性输入框样式
+.flex-input
+  flex: 1
+  min-width: 0
+
+
+// 区域底部样式
+.section-footer
+  display: flex
+  align-items: center
+  justify-content: center
+
+
+// 按钮样式
+.button
+  padding: 0.2rem 0.5rem
+  font-size: 1rem
+  font-weight: 300
+
+
+// 设置选项样式 & 数据列表样式
+.settings,
+#data-list,
+.table-scroller
+  padding: 0 1rem
+
+
+// 设置选项项样式 & 数据项样式
+.setting-item,
+.data-item
+  margin: 1rem 0
+  display: flex
+  align-items: center
+
+
+// 设置选项标签样式 & 数据标签样式
+.setting-label,
+.setting-sublabel,
+.data-label
+  flex-shrink: 0
+  display: inline-block
+  text-align: right
+  font-size: 1rem
+
+.setting-label
+  width: 120px
+
+.setting-sublabel
+  width: 70px
+
+.data-label
+  width: 120px
+
+
+// 表格滚动容器样式
+.table-scroller
+  margin: 2.5rem auto 0 auto
+  overflow-x: auto
+
+
+// 表格样式
+.table
+  margin: 0 auto
+  border-right: 1px solid color-slate-gray
+  border-bottom: 1px solid color-slate-gray
+  max-width: 100%
+
+.table th,
+.table td
+  border-top: 1px solid color-slate-gray
+  border-left: 1px solid color-slate-gray
+  padding: 0.2rem 0.4rem
+
+.table thead th,
+.table tfoot td
+  font-weight: 500
+
+.table tbody td:nth-child(1)
+  white-space: nowrap
+
+.table tbody td:nth-child(2),
+.table tbody td:nth-child(3)
+  word-break: break-all
+
+
+// 预览区域底部样式
+.preview-footer
+  margin: 1rem auto 10rem auto
+  width: max-width
+
+  #export-type
+    padding: 0.2rem 0
+    font-weight: 300
+
+  .button
+    margin: 0 1rem
+
+
+// 响应式设计
+@media mq-mobile
+  .wrapper
+    width: 100%
+
+  .table
+    max-width: 100%
+
+  .preview-footer
+    width: 100%

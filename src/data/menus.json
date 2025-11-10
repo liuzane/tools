@@ -1,0 +1,14 @@
+[
+  {
+    "title": "menus.home",
+    "url": "/home.html"
+  },
+  {
+    "title": "menus.mcc-query",
+    "url": "/mcc-query.html"
+  },
+  {
+    "title": "menus.credit-card-swiping-plan",
+    "url": "/credit-card-swiping-plan.html"
+  }
+]
