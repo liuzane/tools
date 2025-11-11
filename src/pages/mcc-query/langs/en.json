@@ -3,7 +3,7 @@
   "keywords": "MCC Query, MCC Code, Merchant Category Name",
   "description": "MCC Query is a tool to query merchant category code and name.",
   "placeholder": "Please type keyword",
-  "code": "MCC Code",
+  "code": "MCC",
   "name": "Merchant Category Name",
   "rate": "Rate"
 }

@@ -269,7 +269,7 @@ async function JSCompiler({ inputFilePath, outputFilePath, ...esbuildOptions }) 
     entryPoints: [inputFilePath], // 入口文件
     outfile: outputFilePath, // 输出文件路径
     platform: 'browser', // 目标平台为浏览器
-    format: 'esm', // 输出格式为 ES 模块
+    format: 'cjs', // 输出格式为 CommonJS 模块
     bundle: true, // 打包所有依赖到一个文件
     minify: mode === 'production', // 压缩输出文件
     treeShaking: true, // 启用代码摇树优化

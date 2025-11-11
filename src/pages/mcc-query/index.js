@@ -1,15 +1,12 @@
 'use strict';
-import MCCData from './mcc-data.json';
+const MCCData = require('./mcc-data.json');
 
-// 等待DOM加载完成后执行
-// document.addEventListener('DOMContentLoaded', function() {
-//   console.log(MCCData);
-//   const templateTable = document.getElementById('template-table');
-//   const templateRow = document.getElementById('template-row');
-// });
-
-// 渲染全量数据
-render(MCCData);
+// 初始化页面
+function init() {
+  // 渲染全量数据
+  render(MCCData);
+}
+window.addEventListener('DOMContentLoaded', init);
 
 // 渲染数据函数
 function render(data) {
@@ -48,7 +45,7 @@ function onSearch(event) {
   }
   time = setTimeout(() => {
     const newMCCData = [];
-    for (category of MCCData) {
+    for (const category of MCCData) {
       let isTitleMatch = false;
       let title = category.title;
       if (title.toLowerCase().includes(value)) {

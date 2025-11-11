@@ -59,7 +59,6 @@ const appData = {
 function init() {
   initSettings();
   render();
-  // onExportData();
 }
 document.addEventListener('DOMContentLoaded', init);
 
@@ -514,10 +513,10 @@ function drawTableBody(ctx, tableStyle) {
     let lastX = tableStyle.tableMargin;
     tableStyle.columns.forEach((width, colIndex) => {
       if (colIndex === 0) {
-        ctx.textAlign = 'center';
+        ctx.textAlign = 'right';
         ctx.fillText(
           row.texts[colIndex],
-          lastX + width / 2,
+          lastX + width - tableStyle.textIndent,
           tbodyStartY + row.height * rowIndex + row.height / 2
         );
       } else {
@@ -541,22 +540,21 @@ function drawTableFooter(ctx, tableStyle) {
   ctx.font = `500 ${tableStyle.fontSize}px ${tableStyle.fontFamily}`;
 
   const tfootStartY = tableStyle.tableMargin + tableStyle.tableTHeadHeight + tableStyle.tableTBodyHeight;
+  const offsetX = tableStyle.tableMargin + tableStyle.columns[0];
   tableStyle.tfootRows.forEach((row, rowIndex) => {
     if (row.texts[0]) {
-      cellWidth = tableStyle.columns[0];
       ctx.textAlign = 'right';
       ctx.fillText(
         row.texts[0],
-        tableStyle.tableMargin + cellWidth - tableStyle.textIndent,
+        offsetX - tableStyle.textIndent,
         tfootStartY + row.height * rowIndex + row.height / 2
       );
     }
     if (row.texts[1]) {
-      const offsetX = tableStyle.columns[0];
       ctx.textAlign = 'left';
       ctx.fillText(
         row.texts[1],
-        tableStyle.tableMargin + offsetX + tableStyle.textIndent,
+        offsetX + tableStyle.textIndent,
         tfootStartY + row.height * rowIndex + row.height / 2
       );
     }

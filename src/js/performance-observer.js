@@ -5,4 +5,4 @@ const observer = new PerformanceObserver((list) => {
     }
   }
 });
-observer.observe({entryTypes: ['layout-shift']});
+observer.observe({ entryTypes: ['layout-shift'] });
