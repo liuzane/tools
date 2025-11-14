@@ -57,12 +57,12 @@ const compilers = [
         name: 'index',
         inputFilePath: filePath,
         outputFilePath: path.join(DIST_DIR, 'index.html'),
+        langData: globalLangData['en'],
         injectData: {
           name: 'index',
           menus: globalData.menus,
           lang: 'en',
           langs: Object.keys(globalLangData),
-          langData: globalLangData['en'],
         },
       });
     }
@@ -93,20 +93,18 @@ const compilers = [
         const langData = await fs.readJson(path.join(dirPath, PAGE_LANGS_DIR, `${langName}.json`), UTF8_ENCODING);
         // 合并全局语言和页面语言
         const mergedLangData = Object.assign({}, globalLangData[langName], langData);
-        const langDataMap = flattenObject(mergedLangData);
         // 开始编译 EJS 文件
         await EJSCompiler({
           name: dirName,
           inputFilePath: filePath,
           outputFilePath: path.join(DIST_DIR, langName, `${dirName}.html`),
+          langData: mergedLangData,
           injectData: {
             name: dirName,
             menus: globalData.menus,
             data: localJsonDataMap,
             lang: langName,
-            langs: langNames,
-            langData: mergedLangData,
-            _t: (key, ...args) => langDataMap[key] ? sprintf(langDataMap[key], ...args) : key
+            langs: langNames
           },
         });
       }
@@ -215,9 +213,10 @@ async function loadJsonFileData(dir) {
  * @param {object} injectData - 注入到模板中的数据
  * @returns {Promise<void>}
  */
-async function EJSCompiler({ name, inputFilePath, outputFilePath, injectData }) {
+async function EJSCompiler({ name, inputFilePath, outputFilePath, langData, injectData }) {
   const dirPath = path.dirname(inputFilePath);
   const fileContent = await fs.readFile(inputFilePath, UTF8_ENCODING);
+  const langDataMap = flattenObject(langData);
   const htmlString = ejs.render(
     fileContent,
     {
@@ -226,6 +225,8 @@ async function EJSCompiler({ name, inputFilePath, outputFilePath, injectData }) 
       OUTPUT_JS_DIR,
       OUTPUT_CSS_DIR,
       PUBLIC_URL,
+      langDataMap,
+      _t: (key, ...args) => langDataMap[key] ? sprintf(langDataMap[key], ...args) : key,
       ...injectData,
     },
     {
@@ -273,6 +274,9 @@ async function JSCompiler({ inputFilePath, outputFilePath, ...esbuildOptions }) 
     bundle: true, // 打包所有依赖到一个文件
     minify: mode === 'production', // 压缩输出文件
     treeShaking: true, // 启用代码摇树优化
+    define: {
+      __JEST__: 'false', // 定义 __JEST__ 为 false，用于在生产环境中剔除代码
+    },
     ...esbuildOptions,
   });
   console.log(chalk.green(`✓ ESBuild: ${inputFilePath} → ${outputFilePath}`));

@@ -11,12 +11,12 @@
   });
 %>
 <body>
-  <main class="container">
+  <div class="container">
     <aside class="aside">
       <%- include('../../layout/menus.ejs') %>
     </aside>
-    <section class="content">
-      <h1 class="title"><%= _t('title') %></h1>
+    <main class="main">
+      <%- include('../../layout/title.ejs') %>
       <div class="wrapper">
         <!-- 设置选项 -->
          <section class="section">
@@ -77,17 +77,25 @@
             <li class="setting-item">
               <label for="date-format" class="setting-label"><%= _t('settings.date-format') %></label>
               <span class="colon">:</span>
-               <%
-                  const dateFormatOptions = [];
-                  for (const key of Object.keys(langData['settings']['date-format-modes'])) {
-                    dateFormatOptions.push({ key: key, value: _t('settings.date-format-modes.' + key) });
-                  }
-                %>
-               <select id="date-format" class="flex-input" value="<%= dateFormatOptions[0].key %>" onchange="onDateFormatChange(event)">
+              <%
+                const dateFormatKeys = [
+                  'local-lang-with-weekday',
+                  'dash-format-with-weekday',
+                  'slash-format-with-weekday',
+                  'local-lang-format',
+                  'dash-format',
+                  'slash-format',
+                ];
+                const dateFormatOptions = [];
+                for (const key of dateFormatKeys) {
+                  dateFormatOptions.push({ key: key, value: _t('settings.date-format-modes.' + key) });
+                }
+              %>
+              <select id="date-format" class="flex-input" value="<%= dateFormatOptions[0].key %>" onchange="onDateFormatChange(event)">
                 <% for (const item of dateFormatOptions) { %>
                 <option value="<%= item.key %>"><%= item.value %></option>
                 <% } %>
-               </select>
+              </select>
             </li>
             <li class="setting-item">
               <label for="is-float" class="setting-label"><%= _t('settings.is-float') %></label>
@@ -161,8 +169,13 @@
           <label for="export-type" class="setting-label"><%= _t('preview.export-type') %></label>
           <span class="colon">:</span>
           <%
+            const exportTypeKeys = [
+              'image',
+              'excel',
+              'text',
+            ];
             const exportTypeOptions = [];
-            for (const key of Object.keys(langData['preview']['export-types'])) {
+            for (const key of exportTypeKeys) {
               exportTypeOptions.push({ key: key, value: _t('preview.export-types.' + key) });
             }
           %>
@@ -174,8 +187,8 @@
           <button class="button" onclick="onExportData()"><%= _t('preview.export-button') %></button>
         </div>
       </div>
-    </section>
-  </main>
+    </main>
+  </div>
 
   <!-- 数据项模板 -->
   <template id="template-data-item">

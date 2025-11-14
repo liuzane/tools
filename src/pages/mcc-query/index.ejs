@@ -11,13 +11,13 @@
   });
 %>
 <body>
-  <main class="container">
+  <div class="container">
     <aside class="aside">
       <%- include('../../layout/menus.ejs') %>
     </aside>
 
-    <section class="content">
-      <h1 class="title"><%= _t('title') %></h1>
+    <main class="main">
+      <%- include('../../layout/title.ejs') %>
       <input
         id="query"
         type="text"
@@ -26,8 +26,8 @@
       />
       <!-- 表格容器 -->
       <div id="table-container"></div>
-    </section>
-  </main>
+    </main>
+  </div>
 
   <!-- 表格模板 -->
   <template id="template-table">

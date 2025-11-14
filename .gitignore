@@ -9,3 +9,7 @@ dist
 
 # Editor directories and files
 .idea
+
+# Test output
+coverage
+*/coverage

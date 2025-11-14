@@ -49,6 +49,20 @@ const EXPORT_TYPE = {
   TEXT: 'text',
 };
 
+// 默认设置
+const defaultSettings = {
+  totalAmountLimit: '10000.00',
+  workdayDailyCount: '1',
+  workdayMinMoney: '300.00',
+  workdayMaxMoney: '500.00',
+  weekendDailyCount: '2',
+  weekendMinMoney: '700.00',
+  weekendMaxMoney: '1000.00',
+  beginDate: customFormatDate(new Date(), 'YYYY-MM-DD'),
+  dateFormat: DATE_FORMAT.LOCAL_LANG_WITH_WEEKDAY,
+  isFloat: false,
+};
+
 // 应用数据
 const appData = {
   settings: {},
@@ -64,20 +78,8 @@ document.addEventListener('DOMContentLoaded', init);
 
 
 // 初始化设置
-function initSettings() {
-  const defaultValues = {
-    totalAmountLimit: '10000.00',
-    workdayDailyCount: '1',
-    workdayMinMoney: '300.00',
-    workdayMaxMoney: '500.00',
-    weekendDailyCount: '2',
-    weekendMinMoney: '700.00',
-    weekendMaxMoney: '1000.00',
-    beginDate: formatDateToInputValue(new Date()),
-    dateFormat: DATE_FORMAT.LOCAL_LANG_WITH_WEEKDAY,
-    isFloat: false,
-  };
-  const settings = { ...defaultValues };
+function initSettings(isInitDefault = true) {
+  const settings = { ...defaultSettings };
   const totalAmountLimitElement = document.getElementById(ELEMENT_ID.TotalAmountLimit);
   const workdayDailyCountElement = document.getElementById(ELEMENT_ID.WorkdayDailyCount);
   const workdayMinMoneyElement = document.getElementById(ELEMENT_ID.WorkdayMinMoney);
@@ -93,74 +95,60 @@ function initSettings() {
   const moneySeparatorElement = document.getElementById(ELEMENT_ID.MoneySeparator);
   const remarkSeparatorElement = document.getElementById(ELEMENT_ID.RemarkSeparator);
   const exportTypeElement = document.getElementById(ELEMENT_ID.ExportType);
-  // 总金额上限
-  if (totalAmountLimitElement.value) {
-    // 获取
+  
+  // 设置默认值
+  if (isInitDefault) {
+    // 总金额上限
+    totalAmountLimitElement.value = defaultSettings.totalAmountLimit;
+    // 工作日每天笔数
+    workdayDailyCountElement.value = defaultSettings.workdayDailyCount;
+    // 工作日最小金额
+    workdayMinMoneyElement.value = defaultSettings.workdayMinMoney;
+    // 工作日最大金额
+    workdayMaxMoneyElement.value = defaultSettings.workdayMaxMoney;
+    // 周末每天笔数
+    weekendDailyCountElement.value = defaultSettings.weekendDailyCount;
+    // 周末最小金额
+    weekendMinMoneyElement.value = defaultSettings.weekendMinMoney;
+    // 周末最大金额
+    weekendMaxMoneyElement.value = defaultSettings.weekendMaxMoney;
+    // 开始日期
+    beginDateElement.value = defaultSettings.beginDate;
+    // 日期格式
+    dateFormatElement.value = defaultSettings.dateFormat;
+    // 启用小数
+    isFloatElement.checked = defaultSettings.isFloat;
+  } else {
+    // 总金额上限
     settings.totalAmountLimit = totalAmountLimitElement.value;
-  } else {
-    // 设置默认值
-    totalAmountLimitElement.value = defaultValues.totalAmountLimit;
-  }
-  // 工作日每天笔数
-  if (workdayDailyCountElement.value) {
+    // 工作日每天笔数
     settings.workdayDailyCount = workdayDailyCountElement.value;
-  } else {
-    workdayDailyCountElement.value = defaultValues.workdayDailyCount;
-  }
-  // 工作日最小金额
-  if (workdayMinMoneyElement.value) {
+    // 工作日最小金额
     settings.workdayMinMoney = workdayMinMoneyElement.value;
-  } else {
-    workdayMinMoneyElement.value = defaultValues.workdayMinMoney;
-  }
-  // 工作日最大金额
-  if (workdayMaxMoneyElement.value) {
+    // 工作日最大金额
     settings.workdayMaxMoney = workdayMaxMoneyElement.value;
-  } else {
-    workdayMaxMoneyElement.value = defaultValues.workdayMaxMoney;
-  }
-  // 周末每天笔数
-  if (weekendDailyCountElement.value) {
+    // 周末每天笔数
     settings.weekendDailyCount = weekendDailyCountElement.value;
-  } else {
-    weekendDailyCountElement.value = defaultValues.weekendDailyCount;
-  }
-  // 周末最小金额
-  if (weekendMinMoneyElement.value) {
+    // 周末最小金额
     settings.weekendMinMoney = weekendMinMoneyElement.value;
-  } else {
-    weekendMinMoneyElement.value = defaultValues.weekendMinMoney;
-  }
-  // 周末最大金额
-  if (weekendMaxMoneyElement.value) {
+    // 周末最大金额
     settings.weekendMaxMoney = weekendMaxMoneyElement.value;
-  } else {
-    weekendMaxMoneyElement.value = defaultValues.weekendMaxMoney;
-  }
-  // 开始日期
-  if (beginDateElement.value) {
+    // 开始日期
     settings.beginDate = beginDateElement.value;
-  } else {
-    beginDateElement.value = defaultValues.beginDate;
-  }
-  // 日期格式
-  if (dateFormatElement.value) {
+    // 日期格式
     settings.dateFormat = dateFormatElement.value;
-  } else {
-    dateFormatElement.value = defaultValues.dateFormat;
-  }
-  // 启用小数
-  if (isFloatElement.checked) {
+    // 启用小数
     settings.isFloat = isFloatElement.checked;
-  } else {
-    isFloatElement.checked = defaultValues.isFloat;
   }
+
   // 语言环境符号
   settings.langLocal = langLocalElement.value;
   settings.currency = currencyElement.value;
   settings.moneySeparator = moneySeparatorElement.value;
   settings.remarkSeparator = remarkSeparatorElement.value;
   settings.exportType = exportTypeElement.value;
+
+  // 应用设置
   appData.settings = settings;
 }
 
@@ -345,33 +333,33 @@ function drawTable(tableElement) {
   // 表格表头行数据
   const theadRows = [];
   let tableTHeadHeight = 0;
-  tableElement.querySelectorAll('thead tr').forEach((rowElement, index) => {
+  tableElement.querySelectorAll('thead tr').forEach(rowElement => {
     tableHeight += rowElement.offsetHeight;
     tableTHeadHeight += rowElement.offsetHeight;
     theadRows.push({
-      texts: rowElement.innerText.split('\t'),
+      texts: Array.from(rowElement.children).map(child => child.textContent.trim()),
       height: rowElement.offsetHeight
     });
   });
   // 表格主体行数据
   const tbodyRows = [];
   let tableTBodyHeight = 0;
-  tableElement.querySelectorAll('tbody tr').forEach((rowElement, index) => {
+  tableElement.querySelectorAll('tbody tr').forEach(rowElement => {
     tableHeight += rowElement.offsetHeight;
     tableTBodyHeight += rowElement.offsetHeight;
     tbodyRows.push({
-      texts: rowElement.innerText.split('\t'),
+      texts: Array.from(rowElement.children).map(child => child.textContent.trim()),
       height: rowElement.offsetHeight
     });
   });
   // 表格页脚行数据
   const tfootRows = [];
   let tableTFootHeight = 0;
-  tableElement.querySelectorAll('tfoot tr').forEach((rowElement, index) => {
+  tableElement.querySelectorAll('tfoot tr').forEach(rowElement => {
     tableHeight += rowElement.offsetHeight;
     tableTFootHeight += rowElement.offsetHeight;
     tfootRows.push({
-      texts: rowElement.innerText.split('\t'),
+      texts: Array.from(rowElement.children).map(child => child.textContent.trim()),
       height: rowElement.offsetHeight
     });
   });
@@ -440,6 +428,8 @@ function drawTable(tableElement) {
   return canvas;
 }
 
+
+// 绘制表格边框
 function drawTableBorder(ctx, tableStyle) {
   // 外边框
   ctx.strokeStyle = tableStyle.tableBorderColor;
@@ -580,7 +570,7 @@ function exportExcel(tableElement, fileName) {
     const cells = [];
     const tds = tr.querySelectorAll('th,td');
     for (const td of tds) {
-      let text = td.innerText.replace(/\u00A0/g, ' ').trim(); // 处理 &nbsp;
+      let text = td.textContent.replace(/\u00A0/g, ' ').trim(); // 处理 &nbsp;
       if (text.includes('"')) text = text.replace(/"/g, '""');
       if (text.includes(delimiter) || text.includes('\n') || text.includes('\r') || text.includes('"')) {
         text = `"${text}"`;
@@ -598,7 +588,10 @@ function exportExcel(tableElement, fileName) {
 
 // 导出文本数据
 function exportText(tableElement, fileName) {
-  const text = tableElement.innerText.replace(/(\t)/g, '  ');
+  let text = '';
+  tableElement.querySelectorAll('tr').forEach(rowElement => {
+    text += Array.from(rowElement.children).map(child => child.textContent.trim()).join('  ') + '\n';
+  });
   const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   download(url, `${fileName}.txt`);
@@ -620,7 +613,7 @@ window.onDateFormatChange = onDateFormatChange;
 
 // 生成数据事件
 function onCreateData() {
-  initSettings();
+  initSettings(false);
   render();
 }
 window.onCreateData = onCreateData;
@@ -643,9 +636,9 @@ window.onExportTypeChange = onExportTypeChange;
 // 导出数据事件
 function onExportData() {
   const previewTableElement = document.getElementById(ELEMENT_ID.PreviewTable);
-  const title = previewTableElement.querySelector('th:nth-child(1)').innerText;
+  const title = previewTableElement.querySelector('th:nth-child(1)').textContent.trim();
   const date = new Date();
-  const time = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
+  const time = customFormatDate(date, 'YYYYMMDDhhmmss');
   const fileName = `${title}_${time}`.replace(/\s+/g, '_');
   switch (appData.settings.exportType) {
     case EXPORT_TYPE.IMAGE:
@@ -705,7 +698,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
     case DATE_FORMAT.SLASH_FORMAT:
       langOptions = {
         year: 'numeric',
-        month: 'numeric',
+        month: '2-digit',
         day: '2-digit'
       };
       break;
@@ -836,19 +829,44 @@ function parseFormatedCurrency(formattedString, langLocal = window.navigator.lan
 
 
 /**
- * 格式化日期为输入框值。
- * @method formatDateToInputValue
- * @param {date} date
+ * 自定义日期格式化。
+ * @method customFormatDate
+ * @param {string|date} time
  * @return {string}
  */
-function formatDateToInputValue(date) {
-  if (isNaN(date.getTime())) {
-    return '';
+function customFormatDate(time, format = 'YYYY-MM-DD hh:mm:ss') {
+  const date = time instanceof Date ? time : new Date(time || Date.now());
+  if (isNaN(date)) return '';
+
+  const dateValueMap = {
+    'M+': date.getMonth() + 1,
+    'D+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
+    'S': date.getMilliseconds()
+  };
+
+  // 年份替换
+  if (format.includes('YYYY') || format.includes('YY')) {
+    format = format.replace(/Y{2,4}/g, (match) => {
+      const year = date.getFullYear().toString();
+      return match.length === 4 ? year : year.slice(-2);
+    });
   }
-  const dateYear = date.getFullYear();
-  const dateMonth = date.getMonth() + 1;
-  const dateDay = date.getDate();
-  return `${dateYear}-${dateMonth < 10 ? '0' + dateMonth : dateMonth}-${dateDay < 10 ? '0' + dateDay : dateDay}`;
+
+  // 其他字段替换
+  Object.keys(dateValueMap).forEach((key) => {
+    const value = dateValueMap[key].toString();
+    format = format.replace(new RegExp(key, 'g'), (match) => {
+      return match.length === 1
+        ? value
+        : value.padStart(match.length, '0');
+    });
+  });
+
+  return format;
 }
 
 
@@ -892,3 +910,21 @@ function download(url, name) {
   aDom.remove();
 }
 /*  ========== 辅助函数结束 ========== */
+
+
+// 单元测试导出模块
+if (__JEST__ && typeof module !== 'undefined') {
+  module.exports = {
+    ELEMENT_ID,
+    DATE_FORMAT,
+    TIME_FORMAT,
+    EXPORT_TYPE,
+    appData,
+    init,
+    onDateFormatChange,
+    onCreateData,
+    onPreview,
+    onExportTypeChange,
+    onExportData,
+  };
+}

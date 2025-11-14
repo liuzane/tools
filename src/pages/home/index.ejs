@@ -10,10 +10,10 @@
   });
 %>
 <body>
+  <header class="header">
+    <h1 class="title"><%= _t('title') %></h1>
+  </header>
   <main>
-    <header class="header">
-      <h1 class="title"><%= _t('title') %></h1>
-    </header>
     <nav class="menus">
     <%
       const baseUrl = `${ORIGIN_URL}/${lang}`;

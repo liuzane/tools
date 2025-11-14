@@ -80,3 +80,13 @@ window.onSearch = onSearch;
 function replaceKeyword(keyword) {
   return `<em class="keyword">${ keyword }</em>`;
 }
+
+// 单元测试导出模块
+if (__JEST__ && typeof module !== 'undefined') {
+  module.exports = {
+    init,
+    render,
+    onSearch,
+    replaceKeyword
+  };
+}

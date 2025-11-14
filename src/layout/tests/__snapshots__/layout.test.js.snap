@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`布局组件 - 单元测试 head.ejs 渲染页面元信息 1`] = `
+"<head>
+  <meta charset="utf-8" />
+  
+  <meta name="keywords" content="Test Keywords">
+  
+  
+  <meta name="description" content="Test Description">
+  
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Test Title</title>
+  
+  <link rel="alternate" href="https://liuzane.github.io/tools/en/index.html" hreflang="en" />
+  
+  <link rel="alternate" href="https://liuzane.github.io/tools/en/index" hreflang="x-default" />
+  <link rel="canonical" href="https://liuzane.github.io/tools" />
+  <link rel="shortcut icon" href="https://liuzane.github.io/tools/favicon.ico">
+  
+  <link rel="stylesheet" href="https://liuzane.github.io/tools/css/test.css" />
+  
+</head>"
+`;
+
+exports[`布局组件 - 单元测试 menus.ejs 渲染菜单 1`] = `
+"
+<nav class="menus">
+
+  <a href="https://liuzane.github.io/tools/en/test.html" class="menu-item">test.name</a>
+
+</nav>"
+`;
+
+exports[`布局组件 - 单元测试 title.ejs 渲染标题 1`] = `"<h1 class="title">Test Title</h1>"`;

@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`信用卡刷卡计划 - 单元测试 页面 UI 结构匹配快照 1`] = `
+"<main class="main">
+      <h1 class="title">title</h1>
+      <div class="wrapper">
+        <!-- 设置选项 -->
+         <section class="section">
+          <h2 class="subtitle">settings.title</h2>
+          <ul class="settings">
+            <li class="setting-item">
+              <label for="total-amount-limit" class="setting-label">settings.total-amount-limit</label>
+              <span class="colon">:</span>
+              <input id="total-amount-limit" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <label for="workday-daily-count" class="setting-label">settings.work-days.title</label>
+              <span class="colon">:</span>
+              <label for="workday-daily-count" class="setting-sublabel">settings.work-days.daily-count</label>
+              <span class="colon">:</span>
+              <input id="workday-daily-count" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="workday-min-money" class="setting-sublabel">settings.work-days.min-money</label>
+              <span class="colon">:</span>
+              <input id="workday-min-money" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="workday-max-money" class="setting-sublabel">settings.work-days.max-money</label>
+              <span class="colon">:</span>
+              <input id="workday-max-money" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <label for="weekend-daily-count" class="setting-label">settings.weekend-days.title</label>
+              <span class="colon">:</span>
+              <label for="weekend-daily-count" class="setting-sublabel">settings.weekend-days.daily-count</label>
+              <span class="colon">:</span>
+              <input id="weekend-daily-count" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="weekend-min-money" class="setting-sublabel">settings.weekend-days.min-money</label>
+              <span class="colon">:</span>
+              <input id="weekend-min-money" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <span class="setting-label"></span>
+              <span class="colon">:</span>
+              <label for="weekend-max-money" class="setting-sublabel">settings.weekend-days.max-money</label>
+              <span class="colon">:</span>
+              <input id="weekend-max-money" class="flex-input" type="text">
+            </li>
+            <li class="setting-item">
+              <label for="begin-date" class="setting-label">settings.begin-date</label>
+              <span class="colon">:</span>
+              <input id="begin-date" class="flex-input" type="date">
+            </li>
+            <li class="setting-item">
+              <label for="date-format" class="setting-label">settings.date-format</label>
+              <span class="colon">:</span>
+              
+              <select id="date-format" class="flex-input" value="local-lang-with-weekday" onchange="onDateFormatChange(event)">
+                
+                <option value="local-lang-with-weekday">settings.date-format-modes.local-lang-with-weekday</option>
+                
+                <option value="dash-format-with-weekday">settings.date-format-modes.dash-format-with-weekday</option>
+                
+                <option value="slash-format-with-weekday">settings.date-format-modes.slash-format-with-weekday</option>
+                
+                <option value="local-lang-format">settings.date-format-modes.local-lang-format</option>
+                
+                <option value="dash-format">settings.date-format-modes.dash-format</option>
+                
+                <option value="slash-format">settings.date-format-modes.slash-format</option>
+                
+              </select>
+            </li>
+            <li class="setting-item">
+              <label for="is-float" class="setting-label">settings.is-float</label>
+              <span class="colon">:</span>
+              <input id="is-float" type="checkbox">
+            </li>
+          </ul>
+          <input id="lang-local" type="hidden" value="en-US">
+          <input id="currency" type="hidden" value="USD">
+          <input id="money-separator" type="hidden" value=", ">
+          <input id="remark-separator" type="hidden" value=";">
+          <div class="section-footer">
+            <button class="button" onclick="onCreateData()">settings.button</button>
+          </div>
+         </section>
+
+        <!-- 数据调整 -->
+        <section class="section">
+          <h2 class="subtitle">data-adjust.title</h2>
+          <ul id="data-list">
+    <li class="data-item">
+      <label for="date-1735689600000" class="data-label">Wed, Jan 01, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1735689600000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1735776000000" class="data-label">Thu, Jan 02, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1735776000000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1735862400000" class="data-label">Fri, Jan 03, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1735862400000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1735948800000" class="data-label">Sat, Jan 04, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1735948800000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736035200000" class="data-label">Sun, Jan 05, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736035200000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736121600000" class="data-label">Mon, Jan 06, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736121600000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736208000000" class="data-label">Tue, Jan 07, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736208000000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736294400000" class="data-label">Wed, Jan 08, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736294400000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736380800000" class="data-label">Thu, Jan 09, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736380800000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736467200000" class="data-label">Fri, Jan 10, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736467200000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736553600000" class="data-label">Sat, Jan 11, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736553600000" class="flex-input" type="text" value="">
+    </li>
+  
+    <li class="data-item">
+      <label for="date-1736640000000" class="data-label">Sun, Jan 12, 2025</label>
+      <span class="colon">:</span>
+      <input id="date-1736640000000" class="flex-input" type="text" value="">
+    </li>
+  </ul>
+          <div class="section-footer">
+            <button class="button" onclick="onPreview()">data-adjust.button</button>
+          </div>
+        </section>
+
+        <!-- 预览 -->
+        <div class="preview">
+          <h2 class="subtitle">preview.title</h2>
+        </div>
+      </div>
+
+      <!-- 预览表格 -->
+      <div class="table-scroller">
+        <table id="preview-table" class="table">
+          <colgroup>
+            <col>
+            <col id="preview-moneys-col" style="min-width: 0px;">
+            <col id="preview-remark-col" style="min-width: 40px;">
+          </colgroup>
+          <thead>
+            <tr>
+              <th colspan="3" align="center">title</th>
+            </tr>
+            <tr>
+              <th>preview.table.date</th>
+              <th>preview.table.moneys</th>
+              <th>preview.table.remark</th>
+            </tr>
+          </thead>
+          <tbody id="preview-table-body">
+    <tr>
+      <td align="right">Wed, Jan 01, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Thu, Jan 02, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Fri, Jan 03, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Sat, Jan 04, 2025</td>
+      <td>$850.00, $850.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Sun, Jan 05, 2025</td>
+      <td>$850.00, $850.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Mon, Jan 06, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Tue, Jan 07, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Wed, Jan 08, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Thu, Jan 09, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Fri, Jan 10, 2025</td>
+      <td>$400.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Sat, Jan 11, 2025</td>
+      <td>$850.00, $850.00</td>
+      <td></td>
+    </tr>
+  
+    <tr>
+      <td align="right">Sun, Jan 12, 2025</td>
+      <td>$850.00, $850.00</td>
+      <td></td>
+    </tr>
+  </tbody>
+          <tfoot>
+            <tr>
+              <td align="right">preview.table.total-amount</td>
+              <td colspan="2" id="total-amount">$10,000.00</td>
+            </tr>
+            <tr>
+              <td align="right">preview.table.total-count</td>
+              <td colspan="2" id="total-count">16</td>
+            </tr>
+            <tr>
+              <td align="right">preview.table.create-time</td>
+              <td colspan="2" id="create-time">Wed, Jan 01, 2025 00:00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- 预览区域底部 -->
+      <div class="preview-footer">
+        <div class="setting-item">
+          <label for="export-type" class="setting-label">preview.export-type</label>
+          <span class="colon">:</span>
+          
+          <select id="export-type" value="image" onchange="onExportTypeChange(event)">
+            
+            <option value="image">preview.export-types.image</option>
+            
+            <option value="excel">preview.export-types.excel</option>
+            
+            <option value="text">preview.export-types.text</option>
+            
+          </select>
+          <button class="button" onclick="onExportData()">preview.export-button</button>
+        </div>
+      </div>
+    </main>"
+`;

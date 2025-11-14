@@ -2,7 +2,7 @@
   const baseUrl = `${ORIGIN_URL}/${lang}`;
 %>
 <nav class="menus">
-  <% for (const menu of menus) { %>
-    <a href="<%- baseUrl + menu.url %>" class="menu-item"><%= _t(menu.title) %></a>
-  <% } %>
+<% for (const menu of menus) { %>
+  <a href="<%- baseUrl + menu.url %>" class="menu-item"><%= _t(menu.title) %></a>
+<% } %>
 </nav>
