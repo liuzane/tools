@@ -677,7 +677,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
     case DATE_FORMAT.SLASH_FORMAT_WITH_WEEKDAY:
       langOptions = {
         year: 'numeric',
-        month: 'numeric',
+        month: '2-digit',
         day: '2-digit',
         weekday: 'short'
       };
