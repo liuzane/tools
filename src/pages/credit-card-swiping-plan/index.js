@@ -72,7 +72,9 @@ const appData = {
 // 初始化页面
 function init() {
   initSettings();
-  render();
+  initData();
+  renderDataList();
+  renderPreviewTable();
 }
 document.addEventListener('DOMContentLoaded', init);
 
@@ -155,13 +157,13 @@ function initSettings(isInitDefault = true) {
 
 // 初始化数据
 function initData() {
-  const totalAmountLimit = parseFloat(appData.settings.totalAmountLimit) || 0;
-  const workdayDailyCount = parseInt(appData.settings.workdayDailyCount) || 0;
-  const workdayMinMoney = parseFloat(appData.settings.workdayMinMoney) || 0;
-  const workdayMaxMoney = parseFloat(appData.settings.workdayMaxMoney) || 0;
-  const weekendDailyCount = parseInt(appData.settings.weekendDailyCount) || 0;
-  const weekendMinMoney = parseFloat(appData.settings.weekendMinMoney) || 0;
-  const weekendMaxMoney = parseFloat(appData.settings.weekendMaxMoney) || 0;
+  const totalAmountLimit = parseFloat(appData.settings.totalAmountLimit || defaultSettings.totalAmountLimit);
+  const workdayDailyCount = parseInt(appData.settings.workdayDailyCount || defaultSettings.workdayDailyCount);
+  const workdayMinMoney = parseFloat(appData.settings.workdayMinMoney || defaultSettings.workdayMinMoney);
+  const workdayMaxMoney = parseFloat(appData.settings.workdayMaxMoney || defaultSettings.workdayMaxMoney);
+  const weekendDailyCount = parseInt(appData.settings.weekendDailyCount || defaultSettings.weekendDailyCount);
+  const weekendMinMoney = parseFloat(appData.settings.weekendMinMoney || defaultSettings.weekendMinMoney);
+  const weekendMaxMoney = parseFloat(appData.settings.weekendMaxMoney || defaultSettings.weekendMaxMoney);
   const beginDate = appData.settings.beginDate;
   const dateFormat = appData.settings.dateFormat;
   const isFloat = appData.settings.isFloat;
@@ -172,6 +174,10 @@ function initData() {
   let totalAmount = 0;
 
   if (totalAmountLimit <= 0) return;
+
+  if (workdayDailyCount <= 0 && weekendDailyCount <= 0) return;
+
+  if (workdayMinMoney <= 0 && workdayMaxMoney <= 0 && weekendMinMoney <= 0 && weekendMaxMoney <= 0) return;
 
   while (totalAmount < totalAmountLimit) {
     const date = new Date(currentDateTime);
@@ -201,9 +207,7 @@ function initData() {
       isMaxTotalAmount = true;
     }
 
-    if (isMaxTotalAmount && moneys.length === 0) {
-      break;
-    }
+    if (isMaxTotalAmount && moneys.length === 0) break;
 
     totalAmount = tempTotalAmount;
     item.moneys = moneys;
@@ -284,7 +288,11 @@ function renderPreviewTable() {
     const remarkSeparatorIndex = inputValue.indexOf(remarkSeparator);
     const moneysStr = remarkSeparatorIndex >= 0 ? inputValue.substring(0, remarkSeparatorIndex) : inputValue;
     const remarkStr = remarkSeparatorIndex >= 0 ? inputValue.substring(remarkSeparatorIndex + 1) : '';
-    const moneys = moneysStr.split(moneySeparator).map(money => parseFormatedCurrency(money, langLocal, { currency }));
+    const moneys = moneysStr
+      .split(moneySeparator)
+      .filter(money => money !== '')
+      .map(money => parseFormatedCurrency(money, langLocal, { currency }))
+      .filter(money => !isNaN(money));
     const rowElement = templatePreviewTableRow.content.cloneNode(true);
     const cells = rowElement.querySelectorAll('td');
     cells[0].innerHTML = document.querySelector(`label[for="${inputElement.id}"]`).innerHTML;
@@ -309,14 +317,6 @@ function renderPreviewTable() {
   totalAmountElement.innerHTML = formatCurrency(totalAmount, langLocal, { currency });
   totalCountElement.innerHTML = totalCount;
   createTimeElement.innerHTML = formatDate(new Date(), langLocal, dateFormat) + ' ' + formatTime(new Date(), langLocal, TIME_FORMAT.SHORT_FORMAT);
-}
-
-
-// 渲染所有数据
-function render() {
-  initData();
-  renderDataList();
-  renderPreviewTable();
 }
 
 
@@ -563,7 +563,6 @@ function exportImage(tableElement, fileName) {
 
 // 导出Excel数据
 function exportExcel(tableElement, fileName) {
-  const bom = true;
   const delimiter = ',';
   const rows = [];
   for (const tr of tableElement.querySelectorAll('tr')) {
@@ -571,7 +570,10 @@ function exportExcel(tableElement, fileName) {
     const tds = tr.querySelectorAll('th,td');
     for (const td of tds) {
       let text = td.textContent.replace(/\u00A0/g, ' ').trim(); // 处理 &nbsp;
-      if (text.includes('"')) text = text.replace(/"/g, '""');
+      // 对 CSV 中的双引号进行转义（escape），在 CSV 格式中，如果一个字段包含双引号 ", 那么根据 RFC 4180 标准，必须把每个 " 替换为 ""（两个双引号），否则生成的 CSV 会格式错误。
+      if (text.includes('"')) {
+        text = text.replace(/"/g, '""');
+      }
       if (text.includes(delimiter) || text.includes('\n') || text.includes('\r') || text.includes('"')) {
         text = `"${text}"`;
       }
@@ -579,7 +581,7 @@ function exportExcel(tableElement, fileName) {
     }
     rows.push(cells.join(delimiter));
   }
-  const csvContent = (bom ? '\uFEFF' : '') + rows.join('\r\n');
+  const csvContent = '\uFEFF' + rows.join('\r\n');
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   download(url, `${fileName}.csv`);
@@ -614,9 +616,21 @@ window.onDateFormatChange = onDateFormatChange;
 // 生成数据事件
 function onCreateData() {
   initSettings(false);
-  render();
+  initData();
+  renderDataList();
+  renderPreviewTable();
 }
 window.onCreateData = onCreateData;
+
+
+// 删除数据项事件
+function onDeleteDataItem(buttonElement) {
+  const dataItemElement = buttonElement.parentElement;
+  dataItemElement.remove();
+  renderPreviewTable();
+}
+window.onDeleteDataItem = onDeleteDataItem;
+
 
 
 // 预览数据表格事件
@@ -688,7 +702,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
       langOptions = {
         year: 'numeric',
         month: 'short',
-        day: '2-digit'
+        day: 'numeric'
       };
       break;
 
@@ -709,7 +723,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
       langOptions = {
         year: 'numeric',
         month: 'short',
-        day: '2-digit',
+        day: 'numeric',
         weekday: 'short'
       };
       break;
@@ -717,6 +731,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
   const isDashFormat = mode === DATE_FORMAT.DASH_FORMAT_WITH_WEEKDAY || mode === DATE_FORMAT.DASH_FORMAT;
   // 检查是否为短格式（连接符为 /）
   const isShortFormat = langOptions.weekday !== 'long' && (langOptions.month === 'numeric' || langOptions.month === '2-digit');
+  const isWeekdayAfterDate = langLocal.startsWith('zh');
   // 配置 formatToParts 方法返回独立的日期部件
   const formatter = new Intl.DateTimeFormat(langLocal, langOptions);
   // 获取日期的各个组成部分
@@ -728,7 +743,7 @@ function formatDate(date, langLocal = window.navigator.language, mode = DATE_FOR
         return isDashFormat && value === '/' ? '-' : value;
 
       case 'weekday':
-        return isShortFormat ? ' ' + value : value;
+        return isShortFormat && isWeekdayAfterDate ? ' ' + value : value;
 
       default:
         return value;
@@ -913,18 +928,33 @@ function download(url, name) {
 
 
 // 单元测试导出模块
+/* istanbul ignore next */
 if (__JEST__ && typeof module !== 'undefined') {
   module.exports = {
     ELEMENT_ID,
     DATE_FORMAT,
     TIME_FORMAT,
     EXPORT_TYPE,
+    defaultSettings,
     appData,
     init,
+    initSettings,
+    initData,
+    renderPreviewTable,
+    getRandomMoneys,
+    renderDataList,
+    renderPreviewTable,
     onDateFormatChange,
     onCreateData,
+    onDeleteDataItem,
     onPreview,
     onExportTypeChange,
     onExportData,
+    formatDate,
+    formatTime,
+    formatCurrency,
+    parseFormatedCurrency,
+    customFormatDate,
+    calculateTextRect
   };
 }

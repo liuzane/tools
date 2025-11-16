@@ -82,6 +82,7 @@ function replaceKeyword(keyword) {
 }
 
 // 单元测试导出模块
+/* istanbul ignore next */
 if (__JEST__ && typeof module !== 'undefined') {
   module.exports = {
     init,

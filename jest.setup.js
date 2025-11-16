@@ -37,6 +37,16 @@ global.renderHTMLByEJS = function(options) {
   )
 }
 
+global.cleanHtmlSpacing = function(html) {
+  if (typeof html !== 'string') {
+    throw new Error('cleanHtmlSpacing: html must be a string, current type is', typeof html);
+  }
+  if (!html) {
+    return '';
+  }
+  return html.trim().replace(/>\s+</g, '>\n<');
+}
+
 HTMLCanvasElement.prototype.getContext = jest.fn(() => {
   return {
     fillRect: jest.fn(),
