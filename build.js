@@ -239,7 +239,7 @@ async function EJSCompiler({ name, inputFilePath, outputFilePath, langData, inje
   // 写入 HTML 文件
   await fs.ensureFile(outputFilePath);
   await fs.writeFile(outputFilePath, compressedHtml);
-  console.log(chalk.green(`✓ EJS${name ? ` ${name}` : ''}: ${inputFilePath} → ${outputFilePath}`));
+  // console.log(chalk.green(`✓ EJS${name ? ` ${name}` : ''}: ${inputFilePath} → ${outputFilePath}`));
 }
 
 
@@ -279,7 +279,7 @@ async function JSCompiler({ inputFilePath, outputFilePath, ...esbuildOptions }) 
     },
     ...esbuildOptions,
   });
-  console.log(chalk.green(`✓ ESBuild: ${inputFilePath} → ${outputFilePath}`));
+  // console.log(chalk.green(`✓ ESBuild: ${inputFilePath} → ${outputFilePath}`));
 }
 
 
@@ -306,7 +306,7 @@ async function StylusCompiler({ inputFilePath, outputFilePath, importPaths = [] 
       }
       await fs.ensureFile(outputFilePath);
       await fs.writeFile(outputFilePath, css);
-      console.log(chalk.green(`✓ Stylus: ${inputFilePath} → ${outputFilePath}`));
+      // console.log(chalk.green(`✓ Stylus: ${inputFilePath} → ${outputFilePath}`));
       resolve();
     });
   });
@@ -343,8 +343,8 @@ async function copyPublicFiles() {
     const outputPath = path.join(DIST_DIR, file);
     await fs.ensureDir(path.dirname(outputPath));
     await fs.copy(filePath, outputPath);
-    console.log(chalk.gray(`\n📁 复制: ${filePath} → ${outputPath}`));
   }
+  console.log(chalk.gray(`\n📁 复制 ${files.length} 个文件到 ${PUBLIC_DIR} `));
 }
 
 
@@ -389,7 +389,7 @@ async function build() {
     for (const file of files) {
       const filePath = file.cwd ? path.join(file.cwd, file.path) : file.path;
 
-      console.log(chalk.gray(`\n🔍 处理文件: ${filePath}`));
+      // console.log(chalk.gray(`\n🔍 处理文件: ${filePath}`));
 
       await compilerMap[file.compilerKey]({
         filePath,
@@ -397,6 +397,8 @@ async function build() {
         globalData,
       });
     }
+
+    console.log(chalk.green(`✓ ${files.length} 个文件处理完成`));
 
     // 复制其他文件（如图片、字体等）
     await copyPublicFiles();
