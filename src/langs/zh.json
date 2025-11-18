@@ -3,7 +3,8 @@
   "cancel": "取消",
   "menus": {
     "home": "首页",
-    "mcc-query": "MCC 查询",
-    "credit-card-swiping-plan": "信用卡刷卡计划"
+    "ass-subtitle-style-editor": "ASS字幕样式编辑器",
+    "credit-card-swiping-plan": "信用卡刷卡计划",
+    "mcc-query": "MCC 查询"
   }
 }

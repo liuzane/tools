@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang='<%= lang %>'>
+<html lang="<%= lang %>">
 <%- 
   include('../../layout/head.ejs', {
+    title: _t('title'),
     css: [
       '/css/reset.css',
       '/css/global.css',
@@ -16,7 +17,7 @@
       <%- include('../../layout/menus.ejs') %>
     </aside>
     <main class="main">
-      <%- include('../../layout/title.ejs') %>
+      <%- include('../../layout/title.ejs', { title: _t('title') }) %>
       <div class="wrapper">
         <!-- 设置选项 -->
          <section class="section">

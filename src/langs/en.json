@@ -3,7 +3,8 @@
   "cancel": "Cancel",
   "menus": {
     "home": "Home",
-    "mcc-query": "MCC Query",
-    "credit-card-swiping-plan": "Credit Card Swiping Plan"
+    "ass-subtitle-style-editor": "ASS Subtitle Style Editor",
+    "credit-card-swiping-plan": "Credit Card Swiping Plan",
+    "mcc-query": "MCC Query"
   }
 }

@@ -1,14 +1,14 @@
 <head>
   <meta charset="utf-8" />
-  <% if (langDataMap['keywords']) { %>
-  <meta name="keywords" content="<%= _t('keywords') %>">
+  <% if (langDataMap['meta.keywords']) { %>
+  <meta name="keywords" content="<%= langDataMap['meta.keywords'] %>">
   <% } %>
-  <% if (langDataMap['description']) { %>
-  <meta name="description" content="<%= _t('description') %>">
+  <% if (langDataMap['meta.description']) { %>
+  <meta name="description" content="<%= langDataMap['meta.description'] %>">
   <% } %>
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title><%= _t('title') %></title>
+  <title><%= typeof title === 'string' ? title : '' %></title>
   <% langs.forEach(langName => { %>
   <link rel="alternate" href="<%- `${ORIGIN_URL}/${langName}/${name}` %>.html" hreflang="<%- langName %>" />
   <% }); %>

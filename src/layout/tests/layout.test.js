@@ -3,27 +3,23 @@
  */
 
 describe('布局组件 - 单元测试', () => {
-  const langDataMap = {
-    title: 'Test Title',
-    keywords: 'Test Keywords',
-    description: 'Test Description',
-  };
-  const mockFn = jest.fn(key => langDataMap[key] || key);
+  const title = 'Test Title';
 
   test('head.ejs 渲染页面元信息', () => {
     const html = renderHTMLByEJS({
       dir: __dirname,
       filePath: '../head.ejs',
       data: {
-        langDataMap,
-        _t: mockFn,
+        langDataMap: {
+          'meta.keywords': 'Test Keywords',
+          'meta.description': 'Test Description',
+        },
+        title,
         css: ['/css/test.css']
       },
     });
 
     expect(html).toMatchSnapshot();
-
-    expect(mockFn).toHaveBeenCalledWith('title');
   });
 
 
@@ -31,16 +27,17 @@ describe('布局组件 - 单元测试', () => {
     const html = renderHTMLByEJS({
       dir: __dirname,
       filePath: '../title.ejs',
-      data: { _t: mockFn },
+      data: {
+        title,
+      },
     });
 
     expect(html).toMatchSnapshot();
-
-    expect(mockFn).toHaveBeenCalledWith('title');
   });
 
   
   test('menus.ejs 渲染菜单', () => {
+    const mockFn = jest.fn(key => key);
     const html = renderHTMLByEJS({
       dir: __dirname,
       filePath: '../menus.ejs',

@@ -1,7 +1,9 @@
 {
+  "meta": {
+    "keywords": "Credit Card Swiping Plan, Credit Card, Swiping Plan",
+    "description": "Credit Card Swiping Plan is a tool to help you plan your credit card swiping schedule."
+  },
   "title": "Credit Card Swiping Plan",
-  "keywords": "Credit Card Swiping Plan, Credit Card, Swiping Plan",
-  "description": "Credit Card Swiping Plan is a tool to help you plan your credit card swiping schedule.",
   "settings": {
     "title": "Settings",
     "total-amount-limit": "Total Amount Limit",

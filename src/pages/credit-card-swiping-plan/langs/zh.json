@@ -1,7 +1,9 @@
 {
+  "meta": {
+    "keywords": "信用卡刷卡计划, 信用卡, 刷卡计划",
+    "description": "信用卡刷卡计划是一个帮助您计划信用卡刷卡计划的工具。"
+  },
   "title": "信用卡刷卡计划",
-  "keywords": "信用卡刷卡计划, 信用卡, 刷卡计划",
-  "description": "信用卡刷卡计划是一个帮助您计划信用卡刷卡计划的工具。",
   "settings": {
     "title": "设置",
     "total-amount-limit": "总金额上限",
