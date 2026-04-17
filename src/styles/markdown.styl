@@ -1,0 +1,146 @@
+$normal-elements
+  margin-top: 0
+  margin-bottom: 1rem
+
+  &:last-child
+    margin-bottom: 0
+
+
+$list($style)
+  padding-left: 1rem
+  list-style: $style
+  > *
+    @extend $normal-elements
+
+.markdown-container
+  text-align: left
+  word-break: normal
+  word-wrap: break-word
+  box-sizing: border-box
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  table,
+  pre,
+  ul,
+  ol
+    @extend $normal-elements
+
+  h1
+    font-size: 1.5rem
+
+  h2
+    font-size: 1.3rem
+
+  h3
+    font-size: 1.2rem
+
+  h4, h5, h6
+    font-size: 1.1rem
+
+  h1, h2, h3, h4, h5, h6
+    font-weight: 600
+    margin-top: 2rem
+
+    &:hover .headerlink
+      opacity: 1
+
+  .headerlink
+    position: relative
+    font-size: 1rem
+    font-weight: 500
+    opacity: 0;
+    transition: color 0.25s, opacity 0.25s;
+
+    &:before
+      content: '#'
+      position: absolute
+      top: 0
+      left: -0.8rem
+
+  p,
+  li
+    line-height: 1.8
+
+  em
+    font-style: italic
+
+  strong
+    font-weight: 600
+
+  ul
+    $list(disc)
+
+  ol
+    $list(decimal)
+
+  dl
+    $list(none)
+
+  blockquote
+    color: color-default
+    font-size: 0.8rem
+    border-left: .3rem solid color-default
+    padding-left: .8rem
+    margin-top: 1rem
+    margin-left: 0
+    margin-right: 0
+
+  .pullquote
+    width: 50%
+    margin: .5rem
+
+  .left
+    float: left
+
+  .right
+    float: right
+
+  code, tt
+    margin: 0 .1rem
+    padding: .1rem .3rem
+    color: color-eerie-black
+    background-color: color-antiflash-white
+    font-family: font-code
+    border-radius: .2rem
+
+  img
+    display: block
+    max-width: 100%
+    margin: .5em auto
+
+  .video-container
+    text-align: center
+
+  a
+    text-decoration: underline
+
+  table
+    width: 100%
+    margin-top: 1rem
+    border-right: 1px solid color-slate-gray
+    border-bottom: 1px solid color-slate-gray
+    font-size: 0.8rem
+
+    thead > tr,
+    tr:nth-child(2n)
+      background-color: color-slate-gray
+
+    th,
+    td
+      border-left: 1px solid color-slate-gray
+      border-top: 1px solid color-slate-gray
+      padding: 0.5rem
+      color: color-default
+    th
+      font-weight: 500
+
+    td
+      font-weight: 100
+

@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "keywords": "1",
+    "description": "2"
+  },
+  "title": "ASS字幕样式编辑器",
+  "description": "3",
+  "label": {
+    "fontname": "字体",
+    "fontsize": "字体大小",
+    "primary-colour": "主要颜色",
+    "secondary-colour": "次要颜色",
+    "outline-colour": "轮廓颜色",
+    "back-colour": "背景/阴影颜色",
+    "bold": "粗体",
+    "italic": "斜体",
+    "underline": "下划线",
+    "strike-out": "删除线",
+    "scale-x": "横向缩放",
+    "scale-y": "纵向缩放",
+    "spacing": "字间距",
+    "angle": "旋转角度",
+    "border-style": "边框样式",
+    "border-style-option": {
+      "none": "无边框",
+      "normal": "带有阴影的描边",
+      "outline": "不透明底框",
+      "shadow": "仅描边，无阴影"
+    },
+    "outline": "描边粗细",
+    "shadow": "阴影距离",
+    "alignment": "对齐方式",
+    "alignment-option": {
+      "bottom-left": "底部左对齐",
+      "bottom-center": "底部居中对齐",
+      "bottom-right": "底部右对齐",
+      "middle-left": "中间左对齐",
+      "middle-center": "中间居中对齐",
+      "middle-right": "中间右对齐",
+      "top-left": "顶部左对齐",
+      "top-center": "顶部居中对齐",
+      "top-right": "顶部右对齐"
+    },
+    "margin-l": "左边距",
+    "margin-r": "右边距",
+    "margin-v": "垂直边距",
+    "encoding": "编码",
+    "encoding-option": {
+      "ansi": "ANSI（Windows-1252）",
+      "default": "默认（由系统决定）",
+      "symbol": "符号（Symbol）",
+      "shift-jis": "日文（Shift-JIS）",
+      "hangul": "韩文（Hangul）",
+      "johab": "韩文（Johab）",
+      "gb2312": "简体中文（GB2312）",
+      "big5": "繁体中文（Big5）"
+    }
+  }
+}

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="<%= lang %>">
+
+<%-
+  include('../../layout/head.ejs', {
+    title: _t('title'),
+    css: [
+      '/css/reset.css',
+      '/css/global.css',
+      '/css/layout.css',
+      '/css/markdown.css',
+      `/css/${name}.css`,
+    ]
+  });
+%>
+
+<body>
+  <div class="container">
+    <aside class="aside">
+      <%- include('../../layout/menus.ejs') %>
+    </aside>
+
+    <main class="main">
+      <%- include('../../layout/title.ejs', { title: _t('title') }) %>
+      <textarea id="parse-input"></textarea>
+      <div id="setting-container"></div>
+      <button onclick="onGetDataClick()">获取数据</button>
+      <div id="screen">
+        <span id="subtitle">示例字幕</span>
+      </div>
+      <div class="markdown-container">
+        <%- include('./description.zh.ejs') %>
+      </div>
+    </main>
+  </div>
+  <template id="template-stylename">
+    <label for="stylename"><%= _t('label.stylename') %></label>
+    <input type="text" id="stylename" name="stylename">
+  </template>
+  <template id="template-fontname">
+    <label for="fontname"><%= _t('label.fontname') %></label>
+    <input type="text" id="fontname" name="fontname">
+  </template>
+  <template id="template-fontsize">
+    <label for="fontsize"><%= _t('label.fontsize') %></label>
+    <input type="number" id="fontsize" name="fontsize">
+  </template>
+  <template id="template-primary-colour">
+    <label for="primary-colour"><%= _t('label.primary-colour') %></label>
+    <input type="color" id="primary-colour" name="primary-colour">
+  </template>
+  <template id="template-secondary-colour">
+    <label for="secondary-colour"><%= _t('label.secondary-colour') %></label>
+    <input type="color" id="secondary-colour" name="secondary-colour">
+  </template>
+  <template id="template-outline-colour">
+    <label for="outline-colour"><%= _t('label.outline-colour') %></label>
+    <input type="color" id="outline-colour" name="outline-colour">
+  </template>
+  <template id="template-back-colour">
+    <label for="back-colour"><%= _t('label.back-colour') %></label>
+    <input type="color" id="back-colour" name="back-colour">
+  </template>
+  <template id="template-bold">
+    <label for="bold"><%= _t('label.bold') %></label>
+    <input type="checkbox" id="bold" name="bold">
+  </template>
+  <template id="template-italic">
+    <label for="italic"><%= _t('label.italic') %></label>
+    <input type="checkbox" id="italic" name="italic">
+  </template>
+  <template id="template-underline">
+    <label for="underline"><%= _t('label.underline') %></label>
+    <input type="checkbox" id="underline" name="underline">
+  </template>
+  <template id="template-strike-out">
+    <label for="strike-out"><%= _t('label.strike-out') %></label>
+    <input type="checkbox" id="strike-out" name="strike-out">
+  </template>
+  <template id="template-scale-x">
+    <label for="scale-x"><%= _t('label.scale-x') %></label>
+    <input type="number" id="scale-x" name="scale-x">
+  </template>
+  <template id="template-scale-y">
+    <label for="scale-y"><%= _t('label.scale-y') %></label>
+    <input type="number" id="scale-y" name="scale-y">
+  </template>
+  <template id="template-spacing">
+    <label for="spacing"><%= _t('label.spacing') %></label>
+    <input type="number" id="spacing" name="spacing">
+  </template>
+  <template id="template-angle">
+    <label for="angle"><%= _t('label.angle') %></label>
+    <input type="number" id="angle" name="angle">
+  </template>
+  <template id="template-border-style">
+    <label for="border-style"><%= _t('label.border-style') %></label>
+    <select id="border-style" name="border-style">
+      <option value="0">0: <%= _t('label.border-style-option.none') %></option>
+      <option value="1">1: <%= _t('label.border-style-option.normal') %></option>
+      <option value="3">3: <%= _t('label.border-style-option.outline') %></option>
+      <option value="4">4: <%= _t('label.border-style-option.shadow') %></option>
+    </select>
+  </template>
+  <template id="template-outline">
+    <label for="outline"><%= _t('label.outline') %></label>
+    <input type="number" id="outline" name="outline">
+  </template>
+  <template id="template-shadow">
+    <label for="shadow"><%= _t('label.shadow') %></label>
+    <input type="number" id="shadow" name="shadow">
+  </template>
+  <template id="template-alignment">
+    <label for="alignment"><%= _t('label.alignment') %></label>
+    <select id="alignment" name="alignment">
+      <option value="1">1: <%= _t('label.alignment-option.bottom-left') %></option>
+      <option value="2">2: <%= _t('label.alignment-option.bottom-center') %></option>
+      <option value="3">3: <%= _t('label.alignment-option.bottom-right') %></option>
+      <option value="4">4: <%= _t('label.alignment-option.middle-left') %></option>
+      <option value="5">5: <%= _t('label.alignment-option.middle-center') %></option>
+      <option value="6">6: <%= _t('label.alignment-option.middle-right') %></option>
+      <option value="7">7: <%= _t('label.alignment-option.top-left') %></option>
+      <option value="8">8: <%= _t('label.alignment-option.top-center') %></option>
+      <option value="9">9: <%= _t('label.alignment-option.top-right') %></option>
+    </select>
+  </template>
+  <template id="template-margin-l">
+    <label for="margin-l"><%= _t('label.margin-l') %></label>
+    <input type="number" id="margin-l" name="margin-l">
+  </template>
+  <template id="template-margin-r">
+    <label for="margin-r"><%= _t('label.margin-r') %></label>
+    <input type="number" id="margin-r" name="margin-r">
+  </template>
+  <template id="template-margin-v">
+    <label for="margin-v"><%= _t('label.margin-v') %></label>
+    <input type="number" id="margin-v" name="margin-v">
+  </template>
+  <template id="template-encoding">
+    <label for="encoding"><%= _t('label.encoding') %></label>
+    <select id="encoding" name="encoding">
+      <option value="0">0: <%= _t('label.encoding-option.ansi') %></option>
+      <option value="1">1: <%= _t('label.encoding-option.default') %></option>
+      <option value="2">2: <%= _t('label.encoding-option.symbol') %></option>
+      <option value="128">128: <%= _t('label.encoding-option.shift-jis') %></option>
+      <option value="129">129: <%= _t('label.encoding-option.hangul') %></option>
+      <option value="130">130: <%= _t('label.encoding-option.johab') %></option>
+      <option value="134">134: <%= _t('label.encoding-option.gb2312') %></option>
+      <option value="136">136: <%= _t('label.encoding-option.big5') %></option>
+    </select>
+  </template>
+
+
+  <% if (mode==='development' ) { %>
+    <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/performance-observer.js"></script>
+    <% } %>
+      <!-- <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/hyperscript.js"></script> -->
+      <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/<%- name %>.js"></script>
+</body>
+
+</html>

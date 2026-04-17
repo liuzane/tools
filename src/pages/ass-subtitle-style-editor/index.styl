@@ -1,0 +1,111 @@
+.wrapper
+  margin: 0 auto
+  width: mobile-width
+
+
+#parse-input
+  box-sizing: border-box
+  display: block
+  padding: 0.6rem
+  width: 100%
+  height: 5rem
+
+
+.setting-container
+  display: none
+  overflow: hidden
+
+
+.setting-row
+  display: flex
+  flex-wrap: wrap
+  gap: 0.5rem
+  margin: 1rem 0
+  border: 1px solid color-slate-gray
+  padding: 0.8rem
+  overflow: hidden
+
+
+.setting-item
+  margin: 0 0.4rem
+  height: 3.4rem
+
+  input,
+  select
+    display: block
+    margin: 0.3rem auto 0 auto
+    text-align: center
+  
+  select,
+  input[type="color"],
+  input[type="checkbox"]
+    height: 20px
+
+
+  input[type="text"],
+  input[type="number"]
+    height: 16px
+
+
+  input[type="color"]
+    // appearance: none;
+    // -webkit-appearance: none;
+    // border: none;
+    // padding: 0;
+    width: 3rem
+    cursor: pointer
+  
+
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 2px;
+  }
+
+
+  input[id^="fontname"]
+    width: 7rem
+    text-align: left
+
+  input[id^="fontsize"]
+    width: 3.2rem
+  
+  input[id^="scale-x"],
+  input[id^="scale-y"]
+    width: 4rem
+
+  input[id^="spacing"],
+  input[id^="angle"]
+    width: 3.2rem
+
+  select[id^="border-style"]
+    width: 12rem
+
+  input[id^="outline"],
+  input[id^="shadow"]
+    width: 3.2rem
+
+  select[id^="alignment"]
+    width: 10rem
+
+  input[id^="margin-l"],
+  input[id^="margin-r"],
+  input[id^="margin-v"]
+    width: 3.2rem
+
+  select[id^="encoding"]
+    width: 12rem
+
+
+
+  
+
+
+#screen
+  display: none
+  position: relative
+  width: 100%
+  height: 400px
+  background-color: color-black
+
+
+#subtitle
+  visibility: hidden

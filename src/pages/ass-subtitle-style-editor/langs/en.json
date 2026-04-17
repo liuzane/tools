@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "keywords": "1",
+    "description": "2"
+  },
+  "title": "ASS Subtitle Style Editor",
+  "label": {
+    "fontname": "Font Name",
+    "fontsize": "Font Size",
+    "primary-colour": "Primary Colour",
+    "secondary-colour": "Secondary Colour",
+    "outline-colour": "Outline Colour",
+    "back-colour": "Background/Shadow Colour",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strike-out": "Strikeout",
+    "scale-x": "Horizontal Scale",
+    "scale-y": "Vertical Scale",
+    "spacing": "Character Spacing",
+    "angle": "Rotation Angle",
+    "border-style": "Border Style",
+    "border-style-option": {
+      "none": "No Border",
+      "normal": "With Shadow Outline",
+      "outline": "Opaque Bottom Frame",
+      "shadow": "Only Outline, No Shadow"
+    },
+    "outline": "Outline Width",
+    "shadow": "Shadow Distance",
+    "alignment": "Alignment",
+    "alignment-option": {
+      "bottom-left": "Bottom Left",
+      "bottom-center": "Bottom Center",
+      "bottom-right": "Bottom Right",
+      "middle-left": "Middle Left",
+      "middle-center": "Middle Center",
+      "middle-right": "Middle Right",
+      "top-left": "Top Left",
+      "top-center": "Top Center",
+      "top-right": "Top Right"
+    },
+    "margin-l": "Left Margin",
+    "margin-r": "Right Margin",
+    "margin-v": "Vertical Margin",
+    "encoding": "Encoding",
+    "encoding-option": {
+      "ansi": "ANSI（Windows-1252）",
+      "default": "Default（System-dependent）",
+      "symbol": "Symbol（Symbol）",
+      "shift-jis": "Japanese（Shift-JIS）",
+      "hangul": "Korean（Hangul）",
+      "johab": "Korean（Johab）",
+      "gb2312": "Simplified Chinese（GB2312）",
+      "big5": "Traditional Chinese（Big5）"
+    }
+  }
+}
