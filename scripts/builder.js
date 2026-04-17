@@ -1,5 +1,4 @@
 // 基础模块
-const http = require('http');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
@@ -14,32 +13,8 @@ const stylus = require('stylus');
 const minify = require('html-minifier').minify;
 const sprintf = require('sprintf-js').sprintf;
 
-let mode = 'production';
-// 命令行参数处理
-if (process.argv.includes('--development') || process.argv.includes('-d')) {
-  mode = 'development';
-} else {
-  mode = 'production';
-}
-
-// 常量
-const SRC_DIR = path.resolve(__dirname, 'src');
-const DIST_DIR = path.resolve(__dirname, 'dist');
-const PUBLIC_DIR = path.resolve(__dirname, 'public');
-const GlOBAL_LANGS_DIR = path.join(SRC_DIR, 'langs');
-const GlOBAL_DATA_DIR = path.join(SRC_DIR, 'data');
-const PAGE_DIR = path.join(SRC_DIR, 'pages');
-const JS_DIR = path.join(SRC_DIR, 'js');
-const STYLES_DIR = path.join(SRC_DIR, 'styles');
-const STYLES_VARIABLES_FILE = path.join(STYLES_DIR, '_variables.styl');
-const PAGE_LANGS_DIR = 'langs';
-const OUTPUT_JS_DIR = 'js';
-const OUTPUT_CSS_DIR = 'css';
-const UTF8_ENCODING = 'utf8';
-const PUBLIC_URL = '/tools';
-const HOSTNAME = 'localhost';
-const PORT = 7001;
-const ORIGIN_URL = mode === 'development' ? `http://${HOSTNAME}:${PORT}` : `https://liuzane.github.io${PUBLIC_URL}`;
+// 变量
+const vars = require('./vars');
 
 // 编译器配置
 const compilers = [
@@ -49,20 +24,20 @@ const compilers = [
      */
     pattern: 'index.ejs',
     options: {
-      cwd: PAGE_DIR,
+      cwd: vars.PAGE_DIR,
     },
     compiler: async ({ filePath, globalLangData, globalData }) => {
       // 开始编译 EJS 文件
       await EJSCompiler({
         name: 'index',
         inputFilePath: filePath,
-        outputFilePath: path.join(DIST_DIR, 'index.html'),
+        outputFilePath: path.join(vars.OUTPUT_DIR, 'index.html'),
         langData: globalLangData['en'],
         injectData: {
           name: 'index',
-          menus: globalData.menus,
           lang: 'en',
           langs: Object.keys(globalLangData),
+          data: globalData,
         },
       });
     }
@@ -74,37 +49,29 @@ const compilers = [
      */
     pattern: '*/index.ejs',
     options: {
-      cwd: PAGE_DIR,
+      cwd: vars.PAGE_DIR,
     },
     compiler: async ({ filePath, globalLangData, globalData }) => {
       const dirPath = path.dirname(filePath);
       const dirName = path.basename(dirPath);
-      // 加载页面 JSON 文件
-      const localJsonFiles = glob.sync('*.json', { cwd: dirPath });
-      const localJsonDataMap = {};
-      for (const localJsonFile of localJsonFiles) {
-        const localJsonData = await fs.readJson(path.join(dirPath, localJsonFile), UTF8_ENCODING);
-        localJsonDataMap[localJsonFile.replace(/\.json$/, '')] = localJsonData;
-      }
       // 加载页面语言文件
-      const langFiles = glob.sync('*.json', { cwd: path.join(dirPath, PAGE_LANGS_DIR) });
+      const langFiles = glob.sync('*.json', { cwd: path.join(dirPath, vars.PAGE_LANGS_DIR) });
       const langNames = langFiles.map(langFile => langFile.replace(/\.json$/, ''));
       for (const langName of langNames) {
-        const langData = await fs.readJson(path.join(dirPath, PAGE_LANGS_DIR, `${langName}.json`), UTF8_ENCODING);
+        const langData = await fs.readJson(path.join(dirPath, vars.PAGE_LANGS_DIR, `${langName}.json`), vars.UTF8_ENCODING);
         // 合并全局语言和页面语言
         const mergedLangData = Object.assign({}, globalLangData[langName], langData);
         // 开始编译 EJS 文件
         await EJSCompiler({
           name: dirName,
           inputFilePath: filePath,
-          outputFilePath: path.join(DIST_DIR, langName, `${dirName}.html`),
+          outputFilePath: path.join(vars.OUTPUT_DIR, langName, `${dirName}.html`),
           langData: mergedLangData,
           injectData: {
             name: dirName,
-            menus: globalData.menus,
-            data: localJsonDataMap,
             lang: langName,
-            langs: langNames
+            langs: langNames,
+            data: globalData,
           },
         });
       }
@@ -117,11 +84,11 @@ const compilers = [
      */
     pattern: '*.js',
     options: {
-      cwd: JS_DIR,
+      cwd: vars.JS_DIR,
       ignore: '_*.js',
     },
     compiler: async ({ filePath }) => {
-      const outputFilePath = path.join(DIST_DIR, OUTPUT_JS_DIR, path.basename(filePath));
+      const outputFilePath = path.join(vars.OUTPUT_DIR, vars.OUTPUT_JS_DIR, path.basename(filePath));
       // 开始编译 JS 文件
       await JSCompiler({
         inputFilePath: filePath,
@@ -136,10 +103,10 @@ const compilers = [
      */
     pattern: '*/index.js',
     options: {
-      cwd: PAGE_DIR,
+      cwd: vars.PAGE_DIR,
     },
     compiler: async ({ filePath }) => {
-      const outputFilePath = path.join(DIST_DIR, OUTPUT_JS_DIR, `${path.basename(path.dirname(filePath))}.js`);
+      const outputFilePath = path.join(vars.OUTPUT_DIR, vars.OUTPUT_JS_DIR, `${path.basename(path.dirname(filePath))}.js`);
       // 开始编译 JS 文件
       await JSCompiler({
         inputFilePath: filePath,
@@ -154,17 +121,17 @@ const compilers = [
      */
     pattern: '*.styl',
     options: {
-      cwd: STYLES_DIR,
+      cwd: vars.STYLES_DIR,
       ignore: '_*.styl',
     },
     compiler: async ({ filePath }) => {
       const fileName = path.basename(filePath).replace(/\.styl$/, '');
-      const outputFilePath = path.join(DIST_DIR, OUTPUT_CSS_DIR, `${fileName}.css`);
+      const outputFilePath = path.join(vars.OUTPUT_DIR, vars.OUTPUT_CSS_DIR, `${fileName}.css`);
       // 开始编译 Stylus 文件
       await StylusCompiler({
         inputFilePath: filePath,
         outputFilePath,
-        importPaths: [STYLES_VARIABLES_FILE],
+        importPaths: [vars.STYLES_VARIABLES_FILE],
       });
     }
   },
@@ -175,14 +142,14 @@ const compilers = [
      */
     pattern: '*/index.styl',
     options: {
-      cwd: PAGE_DIR,
+      cwd: vars.PAGE_DIR,
     },
     compiler: async ({ filePath }) => {
       const dirName = path.basename(path.dirname(filePath));
       await StylusCompiler({
         inputFilePath: filePath,
-        outputFilePath: path.join(DIST_DIR, OUTPUT_CSS_DIR, `${dirName}.css`),
-        importPaths: [STYLES_VARIABLES_FILE],
+        outputFilePath: path.join(vars.OUTPUT_DIR, vars.OUTPUT_CSS_DIR, `${dirName}.css`),
+        importPaths: [vars.STYLES_VARIABLES_FILE],
       });
     },
   },
@@ -199,7 +166,7 @@ async function loadJsonFileData(dir) {
   const data = {};
   for (const file of langFiles) {
     const fileName = file.replace(/\.json$/, '');
-    data[fileName] = await fs.readJson(path.join(dir, file), UTF8_ENCODING);
+    data[fileName] = await fs.readJson(path.join(dir, file), vars.UTF8_ENCODING);
   }
   return data;
 }
@@ -215,16 +182,15 @@ async function loadJsonFileData(dir) {
  */
 async function EJSCompiler({ name, inputFilePath, outputFilePath, langData, injectData }) {
   const dirPath = path.dirname(inputFilePath);
-  const fileContent = await fs.readFile(inputFilePath, UTF8_ENCODING);
+  const fileContent = await fs.readFile(inputFilePath, vars.UTF8_ENCODING);
   const langDataMap = flattenObject(langData);
   const htmlString = ejs.render(
     fileContent,
     {
-      mode,
-      ORIGIN_URL,
-      OUTPUT_JS_DIR,
-      OUTPUT_CSS_DIR,
-      PUBLIC_URL,
+      require,
+      ...vars,
+      dirPath,
+      filePath: inputFilePath,
       langDataMap,
       _t: (key, ...args) => langDataMap[key] ? sprintf(langDataMap[key], ...args) : key,
       ...injectData,
@@ -272,7 +238,7 @@ async function JSCompiler({ inputFilePath, outputFilePath, ...esbuildOptions }) 
     platform: 'browser', // 目标平台为浏览器
     format: 'cjs', // 输出格式为 CommonJS 模块
     bundle: true, // 打包所有依赖到一个文件
-    minify: mode === 'production', // 压缩输出文件
+    minify: vars.mode === 'production', // 压缩输出文件
     treeShaking: true, // 启用代码摇树优化
     define: {
       __JEST__: 'false', // 定义 __JEST__ 为 false，用于在生产环境中剔除代码
@@ -337,14 +303,14 @@ function flattenObject(data, obj = {}, parent = '') {
  * @returns {Promise<void>}
  */
 async function copyPublicFiles() {
-  const files = glob.sync('**/*', { cwd: PUBLIC_DIR, nodir: true });
+  const files = glob.sync('**/*', { cwd: vars.PUBLIC_DIR, nodir: true });
   for (const file of files) {
-    const filePath = path.join(PUBLIC_DIR, file);
-    const outputPath = path.join(DIST_DIR, file);
+    const filePath = path.join(vars.PUBLIC_DIR, file);
+    const outputPath = path.join(vars.OUTPUT_DIR, file);
     await fs.ensureDir(path.dirname(outputPath));
     await fs.copy(filePath, outputPath);
   }
-  console.log(chalk.gray(`\n📁 复制 ${files.length} 个文件到 ${PUBLIC_DIR} `));
+  console.log(chalk.gray(`\n📁 复制 ${files.length} 个文件到 ${vars.PUBLIC_DIR} `));
 }
 
 
@@ -352,12 +318,12 @@ async function copyPublicFiles() {
  * 主构建函数
  * @returns {Promise<void>}
  */
-async function build() {
+async function builder() {
   console.log(chalk.blue('🚀 开始构建...'));
 
   try {
     // 清空输出目录
-    await fs.emptyDir(DIST_DIR);
+    await fs.emptyDir(vars.OUTPUT_DIR);
 
     // 查找所有需要处理的文件
     const files = [];
@@ -377,11 +343,11 @@ async function build() {
 
     // 加载全局语言文件数据
     console.log(chalk.gray(`\n🌐 加载全局语言文件数据...`));
-    const globalLangData = await loadJsonFileData(GlOBAL_LANGS_DIR);
+    const globalLangData = await loadJsonFileData(vars.GlOBAL_LANGS_DIR);
 
     // 加载数据文件夹下的所有JSON文件数据
     console.log(chalk.gray(`\n📄 加载数据文件夹JSON文件数据...`));
-    const globalData = await loadJsonFileData(GlOBAL_DATA_DIR);
+    const globalData = await loadJsonFileData(vars.GlOBAL_DATA_DIR);
 
     console.log(chalk.gray(`\n📁 发现 ${files.length} 个文件需要处理`));
 
@@ -409,124 +375,4 @@ async function build() {
   }
 }
 
-
-let buildTimeout = null;
-
-
-/**
- * 本地服务器
- * @returns {Promise<void>}
- */
-async function devServer() {
-  await build();
-
-  console.log(`\n👀 开始监听目录: ${SRC_DIR}`);
-  
-  try {
-    // 使用 fs.watch 监听目录（递归模式）
-    const watcher = fs.watch(SRC_DIR, { recursive: true }, (eventType, filename) => {
-      if (filename) {
-        const fullPath = path.join(SRC_DIR, filename);
-        console.log(`\n📁 检测到变化: ${eventType} -> ${fullPath}`);
-        
-        // 防抖：延迟构建，避免频繁触发
-        if (buildTimeout) {
-          clearTimeout(buildTimeout);
-        }
-        buildTimeout = setTimeout(build, 500); // 延迟500ms
-      }
-    });
-
-    // 错误处理
-    watcher.on('error', (error) => {
-      console.error('❌ 监听错误:', error);
-    });
-  } catch (error) {
-    console.error('❌ 初始化监听失败:', error);
-    throw error;
-  }
-
-  // 创建HTTP服务器
-  const server = http.createServer((req, res) => {
-    // 只处理 GET 请求
-    if (req.method !== 'GET') {
-      res.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(`<h1>405 - Method Not Allowed</h1>`);
-      return;
-    }
-
-    // 构建静态文件绝对路径
-    const filePath = path.join(DIST_DIR, req.url === '/' ? 'index.html' : req.url);
-
-    // 检查文件是否存在
-    fs.stat(filePath, (err, stats) => {
-      if (err || !stats.isFile()) {
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(`<h1>404 - Not Found</h1>`);
-        return;
-      }
-
-      // 根据文件扩展名设置 MIME 类型
-      const extname = path.extname(filePath);
-      const mimeTypes = {
-        // HTML
-        '.html': 'text/html; charset=utf-8',
-        '.htm': 'text/html; charset=utf-8',
-
-        // CSS
-        '.css': 'text/css; charset=utf-8',
-
-        // JavaScript
-        '.js': 'application/javascript; charset=utf-8',
-        '.mjs': 'application/javascript; charset=utf-8',
-
-        // 图片
-        '.ico': 'image/x-icon',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml',
-        '.webp': 'image/webp',
-        '.bmp': 'image/bmp',
-
-        // 字体
-        '.woff': 'font/woff',
-        '.woff2': 'font/woff2',
-        '.ttf': 'font/ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-
-        // 其他
-        '.json': 'application/json',
-        '.pdf': 'application/pdf',
-        '.txt': 'text/plain; charset=utf-8',
-        '.xml': 'application/xml'
-      };
-
-      const contentType = mimeTypes[extname] || 'application/octet-stream';
-      res.setHeader('Content-Type', contentType);
-
-      // 读取文件并返回
-      const readStream = fs.createReadStream(filePath);
-      readStream.pipe(res);
-
-      readStream.on('error', (error) => {
-        console.error('文件读取错误:', error);
-        res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(`<h1>500 - Internal Server Error</h1>`);
-      });
-    });
-  });
-
-  // 启动服务器，开始监听指定端口
-  server.listen(PORT, HOSTNAME, () => {
-    console.log(chalk.blue(`\n✅ 本地服务器已启动: http://${HOSTNAME}:${PORT}`));
-  });
-}
-
-// 命令行参数处理
-if (process.argv.includes('--development') || process.argv.includes('-d')) {
-  devServer();
-} else {
-  build();
-}
+module.exports = builder;

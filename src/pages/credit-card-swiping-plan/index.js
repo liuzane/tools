@@ -940,7 +940,6 @@ if (__JEST__ && typeof module !== 'undefined') {
     init,
     initSettings,
     initData,
-    renderPreviewTable,
     getRandomMoneys,
     renderDataList,
     renderPreviewTable,

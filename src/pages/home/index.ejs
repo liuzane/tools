@@ -17,7 +17,7 @@
     <nav class="menus">
     <%
       const baseUrl = `${ORIGIN_URL}/${lang}`;
-      const noHomeMenus = menus.filter(menu => !menu.title.endsWith('.home'));
+      const noHomeMenus = data.menus.filter(menu => !menu.title.endsWith('.home'));
       for (const menu of noHomeMenus) { 
     %>
       <a href="<%- baseUrl + menu.url %>"><%= _t(menu.title) %></a>

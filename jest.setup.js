@@ -9,29 +9,38 @@ global.renderHTMLByEJS = function(options) {
   const filePath = options.filePath;
   const data = options.data || {};
   const EJS_TEMPLATE_DATA = {
+    require,
     mode: 'production',
     ORIGIN_URL: 'https://liuzane.github.io/tools',
     OUTPUT_JS_DIR: '/js',
     OUTPUT_CSS_DIR: '/css',
     PUBLIC_URL: '/tools',
     name: 'index',
-    menus: [
-      {
-        title: 'test.name',
-        url: '/test.html',
-      }
-    ],
     lang: 'en',
     langs: ['en'],
-    langDataMap: {}
+    langDataMap: {},
+    data: {
+      menus: [
+        {
+          title: 'test.name',
+          url: '/test.html',
+        }
+      ]
+    },
   };
   const absolutePath = path.resolve(dir, filePath);
+  const dirPath = path.dirname(absolutePath);
   const templateHTML = fs.readFileSync(absolutePath, 'utf8');
   return ejs.render(
     templateHTML,
-    { ...EJS_TEMPLATE_DATA, ...data },
     {
-      root: path.dirname(absolutePath),
+      ...EJS_TEMPLATE_DATA,
+      ...data,
+      dirPath,
+      filePath: absolutePath,
+    },
+    {
+      root: dirPath,
       filename: absolutePath,
     }
   )

@@ -1,0 +1,160 @@
+<h3>说明</h3>
+<p>一个完整的格式行如下：</p>
+<p>
+  <code>Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding</code>
+</p>
+<p>一个完整的样式行如下：</p>
+<p>
+  <code>Style: Default,微软雅黑,24,&amp;H00FFFFFF,&amp;H00FFFFFF,&amp;H00000000,&amp;H00000000,0,0,0,0,100,100,0,0,1,1,1,2,5,5,5,1</code>
+</p>
+<p>
+  格式行和样式行的内容一一对应。格式行定义了如何解释样式中的每个字段，因此格式行必须出现在所有的样式之前，且格式行中列出的字段名必须拼写正确！格式行允许在未来将新字段添加到脚本格式中，并且允许旧版本的软件读取它所识别的字段——即使字段顺序已经更改。包括如下23个字段：
+</p>
+<ol>
+  <li>
+    <p><code>Name</code>（名称）</p>
+    <p><strong>说明：</strong> 样式的唯一标识符。在字幕事件行中通过这个名称来引用样式。</p>
+    <p><strong>示例：</strong> <code>Default</code>, <code>Title</code>, <code>MainCharacter</code>,
+      <code>TopComment</code></p>
+  </li>
+  <li>
+    <p><code>Fontname</code>（字体名称）</p>
+    <p><strong>说明：</strong> 指定字幕使用的字体。必须使用系统内已安装的字体名称。</p>
+    <p><strong>示例：</strong> <code>Arial</code>, <code>Microsoft YaHei</code>, <code>SimSun</code>,
+      <code>Times New Roman</code></p>
+  </li>
+  <li>
+    <p><code>Fontsize</code>（字体大小）</p>
+    <p><strong>说明：</strong> 字体的高度，单位为像素。</p>
+    <p><strong>示例：</strong> <code>20</code>, <code>36</code>, <code>48</code></p>
+  </li>
+  <li>
+    <p><code>PrimaryColour</code>（主要颜色）</p>
+    <p><strong>说明：</strong> 字幕正文的主要颜色。通常指字体填充色。</p>
+    <p><strong>格式：</strong> <code>BBGGRR</code>（蓝-绿-红，十六进制），<strong>注意顺序是BGR，不是RGB</strong>。</p>
+    <p><strong>Alpha通道：</strong>
+      在某些实现中，颜色后可以跟一个Alpha值（透明度），格式为<code>&amp;HBBGGRR&amp;</code>，Alpha值在<code>&amp;H</code>之后，格式为<code>AABBGGRR</code>。
+    </p>
+    <p><strong>示例：</strong></p>
+    <ul>
+      <li><code>&amp;H000000&amp;</code> - 黑色</li>
+      <li><code>&amp;HFFFFFF&amp;</code> - 白色</li>
+      <li><code>&amp;HFF0000&amp;</code> - 蓝色（因为BGR顺序）</li>
+      <li><code>&amp;H0000FF&amp;</code> - 红色</li>
+    </ul>
+  </li>
+  <li>
+    <p><code>SecondaryColour</code>（次要颜色）</p>
+    <p><strong>说明：</strong> 在卡拉OK效果中，用于表示尚未演唱部分的颜色。在非卡拉OK情况下，此属性通常不使用，但必须定义。</p>
+  </li>
+  <li>
+    <p><code>OutlineColour</code>（边框颜色）</p>
+    <p><strong>说明：</strong> 字幕文字描边的颜色。</p>
+  </li>
+  <li>
+    <p><code>BackColour</code>（背景/阴影颜色）</p>
+    <p><strong>说明：</strong> 字幕文字阴影的颜色。</p>
+  </li>
+  <li>
+    <p><code>Bold</code>（粗体）</p>
+    <p><strong>说明：</strong> 是否启用粗体。</p>
+    <p><strong>取值：</strong> <code>-1</code> 表示开启（是），<code>0</code> 表示关闭（否）。</p>
+  </li>
+  <li>
+    <p><code>Italic</code>（斜体）</p>
+    <p><strong>说明：</strong> 是否启用斜体。</p>
+    <p><strong>取值：</strong> <code>-1</code> 表示开启（是），<code>0</code> 表示关闭（否）。</p>
+  </li>
+  <li>
+    <p><code>Underline</code>（下划线）</p>
+    <p><strong>说明：</strong> 是否启用下划线。</p>
+    <p><strong>取值：</strong> <code>-1</code> 表示开启（是），<code>0</code> 表示关闭（否）。</p>
+  </li>
+  <li>
+    <p><code>StrikeOut</code>（删除线）</p>
+    <p><strong>说明：</strong> 是否启用删除线。</p>
+    <p><strong>取值：</strong> <code>-1</code> 表示开启（是），<code>0</code> 表示关闭（否）。</p>
+  </li>
+  <li>
+    <p><code>ScaleX</code>（横向缩放）</p>
+    <p><strong>说明：</strong> 文字的宽度缩放比例。以100为基准（100%）。</p>
+    <p><strong>示例：</strong> <code>100</code>（正常），<code>150</code>（宽度为正常的1.5倍），<code>80</code>（宽度为正常的1.8倍）。</p>
+  </li>
+  <li>
+    <p><code>ScaleY</code>（纵向缩放）</p>
+    <p><strong>说明：</strong> 文字的高度缩放比例。以100为基准（100%）。</p>
+    <p><strong>示例：</strong> <code>100</code>（正常），<code>150</code>（高度为正常的1.5倍），<code>80</code>（高度为正常的1.8倍）。</p>
+  </li>
+  <li>
+    <p><code>Spacing</code>（字间距）</p>
+    <p><strong>说明：</strong> 字符之间的额外间距，单位为像素。可以为负数。</p>
+    <p><strong>示例：</strong> <code>0</code>（正常），<code>2</code>（增加2像素间距），<code>-1</code>（减少1像素间距）。</p>
+  </li>
+  <li>
+    <p><code>Angle</code>（旋转角度）</p>
+    <p><strong>说明：</strong> 文字围绕Z轴（垂直于屏幕）旋转的角度，单位为度。逆时针方向为正。</p>
+    <p><strong>示例：</strong> <code>0</code>（不旋转），<code>45</code>（逆时针旋转45度），<code>-90</code>（顺时针旋转90度）。</p>
+  </li>
+  <li>
+    <p><code>BorderStyle</code>（边框样式）</p>
+    <p><strong>说明：</strong> 这是一个非常重要的属性，它决定了字幕的渲染模式。</p>
+    <p><strong>取值：</strong></p>
+    <ul>
+      <li><code>1</code>： <strong>带有阴影的描边</strong>。这是最常用、最清晰的模式。文字先描边，再在后方/下方添加阴影。</li>
+      <li><code>3</code>： <strong>不透明框</strong>。文字显示在一个不透明的矩形框内，矩形框的颜色由<code>BackColour</code>决定。常用于确保字幕在任何背景下都清晰可读。
+      </li>
+      <li><code>4</code>： <strong>仅描边，无阴影</strong>。</li>
+    </ul>
+  </li>
+  <li>
+    <p><code>Outline</code>（描边粗细）</p>
+    <p><strong>说明：</strong> 当<code>BorderStyle</code>为1或4时，文字描边的宽度，单位为像素。</p>
+    <p><strong>示例：</strong> <code>1</code>（细描边），<code>3</code>（粗描边）。通常<code>2</code>或<code>3</code>是比较通用的选择。</p>
+  </li>
+  <li>
+    <p><code>Shadow</code>（阴影距离）</p>
+    <p><strong>说明：</strong> 当<code>BorderStyle</code>为1时，文字阴影的偏移距离，单位为像素。</p>
+    <p><strong>示例：</strong> <code>0</code>（无阴影），<code>2</code>（阴影在右下偏移2像素），<code>-2</code>（阴影在左上偏移2像素）。</p>
+  </li>
+  <li>
+    <p><code>Alignment</code>（对齐方式）</p>
+    <p><strong>说明：</strong> 字幕在屏幕上的对齐方式。这是一个数字编码，非常重要。</p>
+    <p><strong>取值（数字编码含义）：</strong></p>
+    <ul>
+      <li><code>1</code>： 底部左对齐</li>
+      <li><code>2</code>： 底部居中对齐</li>
+      <li><code>3</code>： 底部右对齐</li>
+      <li><code>4</code>： 中部左对齐</li>
+      <li><code>5</code>： 中部居中对齐</li>
+      <li><code>6</code>： 中部右对齐</li>
+      <li><code>7</code>： 顶部左对齐</li>
+      <li><code>8</code>： 顶部居中对齐</li>
+      <li><code>9</code>： 顶部右对齐</li>
+    </ul>
+    <p><strong>注意：</strong> 某些播放器或脚本也使用<code>10+</code>的数字来表示“相对于字幕Margin”的对齐，但<code>1-9</code>是最通用和标准的。</p>
+  </li>
+  <li>
+    <p><code>MarginL</code>, <code>MarginR</code>, <code>MarginV</code>（边距）</p>
+    <p><strong>说明：</strong> 定义字幕的“安全区域”，单位为像素。</p>
+    <ul>
+      <li><code>MarginL</code>： 左边距。字幕距离屏幕左边缘的最小距离。</li>
+      <li><code>MarginR</code>： 右边距。字幕距离屏幕右边缘的最小距离。</li>
+      <li><code>MarginV</code>： 垂直边距。根据<code>Alignment</code>的不同，含义不同： -
+        如果对齐方式是<code>1, 2, 3</code>（底部对齐），它表示距离屏幕底部的距离。 - 如果对齐方式是<code>7, 8, 9</code>（顶部对齐），它表示距离屏幕顶部的距离。 -
+        如果对齐方式是<code>4, 5, 6</code>（中间对齐），它通常被忽略。</li>
+    </ul>
+  </li>
+  <li>
+    <p><code>Encoding</code>（编码）</p>
+    <p><strong>说明：</strong> 字体所使用的字符编码。这个属性在现代应用中已较少使用，因为Unicode（如UTF-8）已成为标准。</p>
+    <p><strong>示例：</strong></p>
+    <ul>
+      <li><code>0</code>： ANSI（如GB2312, Big5）</li>
+      <li><code>1</code>： Default（默认）</li>
+      <li><code>128</code>： Shift-JIS（日文）</li>
+      <li><code>134</code>： GB2312（简体中文）</li>
+      <li><code>136</code>： Big5（繁体中文）</li>
+      <li><code>1</code> 或 <code>0</code> 通常可以应付大多数情况，但推荐将字幕文件保存为UTF-8格式。</li>
+    </ul>
+  </li>
+</ol>

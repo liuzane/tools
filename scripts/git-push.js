@@ -1,6 +1,7 @@
 const ghpages = require('gh-pages');
+const { OUTPUT_DIR } = require('./vars');
 
-ghpages.publish('dist', {
+ghpages.publish(OUTPUT_DIR, {
   message: 'Auto-generated commit',
   branch: 'gh-pages',
   repo: 'https://github.com/liuzane/tools.git',
