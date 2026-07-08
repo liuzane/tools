@@ -10,5 +10,9 @@
   {
     "title": "menus.credit-card-swiping-plan",
     "url": "/credit-card-swiping-plan.html"
+  },
+  {
+    "title": "menus.mcc-query",
+    "url": "/mcc-query.html"
   }
 ]

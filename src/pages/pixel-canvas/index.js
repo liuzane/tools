@@ -1,7 +1,7 @@
 'use strict';
 
 // 状态管理
-let state = {
+const state = {
   gridSize: 16,
   currentColor: '#000000',
   isEraser: false,
@@ -9,144 +9,177 @@ let state = {
   cells: []
 };
 
-// DOM元素引用
-let gridContainer = null;
+let canvas = null;
+let ctx = null;
+
 let colorPicker = null;
 let btnClear = null;
 let btnEraser = null;
 let gridSizeSelect = null;
 
-// 初始化页面
+const CANVAS_SIZE = 640;
+
 function init() {
-  // 获取DOM元素
-  gridContainer = document.getElementById('grid-container');
+  canvas = document.getElementById('pixel-canvas');
+  ctx = canvas.getContext('2d');
+
   colorPicker = document.getElementById('color-picker');
   btnClear = document.getElementById('btn-clear');
   btnEraser = document.getElementById('btn-eraser');
   gridSizeSelect = document.getElementById('grid-size');
 
-  // 初始化画布
+  // 不让canvas做抗锯齿
+  ctx.imageSmoothingEnabled = false;
+
   initCanvas();
 
-  // 绑定事件
   bindEvents();
 }
 
-// 初始化画布
 function initCanvas() {
-  const totalCells = state.gridSize * state.gridSize;
-  state.cells = Array.from({ length: totalCells }, () => ({
-    color: '#ffffff'
-  }));
-  
-  // 渲染网格
-  renderGrid();
+  state.cells = Array.from(
+    { length: state.gridSize * state.gridSize },
+    () => '#ffffff'
+  );
+
+  renderCanvas();
 }
 
-// 渲染网格
-function renderGrid() {
-  gridContainer.style.gridTemplateColumns = `repeat(${state.gridSize}, 1fr)`;
-  gridContainer.innerHTML = '';
-  
-  state.cells.forEach((cell, index) => {
-    const cellElement = document.createElement('div');
-    cellElement.className = 'pixel-canvas__cell';
-    cellElement.style.backgroundColor = cell.color;
-    cellElement.dataset.index = index;
-    
-    gridContainer.appendChild(cellElement);
-  });
-}
+function renderCanvas() {
+  const cellSize = CANVAS_SIZE / state.gridSize;
 
-// 绑定事件
-function bindEvents() {
-  // 颜色选择器
-  colorPicker.addEventListener('input', (event) => {
-    state.currentColor = event.target.value;
-  });
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-  // 清空按钮
-  btnClear.addEventListener('click', clearCanvas);
+  for (let y = 0; y < state.gridSize; y++) {
+    for (let x = 0; x < state.gridSize; x++) {
+      const index = y * state.gridSize + x;
 
-  // 橡皮擦按钮
-  btnEraser.addEventListener('click', toggleEraser);
+      // 填充颜色
+      ctx.fillStyle = state.cells[index];
+      ctx.fillRect(
+        x * cellSize,
+        y * cellSize,
+        cellSize,
+        cellSize
+      );
 
-  // 网格大小选择
-  gridSizeSelect.addEventListener('change', (event) => {
-    state.gridSize = parseInt(event.target.value, 10);
-    initCanvas();
-  });
-
-  // 网格鼠标事件委托
-  gridContainer.addEventListener('mousedown', handleMouseDown);
-  gridContainer.addEventListener('mouseenter', handleMouseEnter);
-  gridContainer.addEventListener('mouseleave', stopDrawing);
-
-  // 全局鼠标松开事件
-  document.addEventListener('mouseup', stopDrawing);
-}
-
-// 鼠标按下处理
-function handleMouseDown(event) {
-  const cell = event.target.closest('.pixel-canvas__cell');
-  if (!cell) return;
-  
-  state.isDrawing = true;
-  const index = parseInt(cell.dataset.index, 10);
-  drawCell(index);
-}
-
-// 鼠标进入处理
-function handleMouseEnter(event) {
-  const cell = event.target.closest('.pixel-canvas__cell');
-  if (!cell || !state.isDrawing) return;
-  
-  const index = parseInt(cell.dataset.index, 10);
-  drawCell(index);
-}
-
-// 绘制单元格
-function drawCell(index) {
-  const fillColor = state.isEraser ? '#ffffff' : state.currentColor;
-  state.cells[index].color = fillColor;
-  
-  // 更新DOM
-  const cellElement = gridContainer.children[index];
-  if (cellElement) {
-    cellElement.style.backgroundColor = fillColor;
+      // 网格线
+      ctx.strokeStyle = '#ddd';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(
+        x * cellSize,
+        y * cellSize,
+        cellSize,
+        cellSize
+      );
+    }
   }
 }
 
-// 停止绘制
+function bindEvents() {
+  colorPicker.addEventListener('input', (e) => {
+    state.currentColor = e.target.value;
+  });
+
+  btnClear.addEventListener('click', clearCanvas);
+
+  btnEraser.addEventListener('click', toggleEraser);
+
+  gridSizeSelect.addEventListener('change', (e) => {
+    state.gridSize = Number(e.target.value);
+    initCanvas();
+  });
+
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('mousemove', onMouseMove);
+
+  document.addEventListener('mouseup', stopDrawing);
+}
+
+function onMouseDown(e) {
+  state.isDrawing = true;
+  drawByEvent(e);
+}
+
+function onMouseMove(e) {
+  if (!state.isDrawing) return;
+
+  drawByEvent(e);
+}
+
 function stopDrawing() {
   state.isDrawing = false;
 }
 
-// 清空画布
+function drawByEvent(e) {
+  const rect = canvas.getBoundingClientRect();
+
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top) * scaleY;
+
+  const cellSize = CANVAS_SIZE / state.gridSize;
+
+  const col = Math.floor(x / cellSize);
+  const row = Math.floor(y / cellSize);
+
+  if (
+    row < 0 ||
+    row >= state.gridSize ||
+    col < 0 ||
+    col >= state.gridSize
+  ) {
+    return;
+  }
+
+  const index = row * state.gridSize + col;
+
+  drawCell(index);
+}
+
+function drawCell(index) {
+  const color = state.isEraser
+    ? '#ffffff'
+    : state.currentColor;
+
+  if (state.cells[index] === color) {
+    return;
+  }
+
+  state.cells[index] = color;
+
+  const cellSize = CANVAS_SIZE / state.gridSize;
+
+  const x = index % state.gridSize;
+  const y = Math.floor(index / state.gridSize);
+
+  ctx.fillStyle = color;
+
+  ctx.fillRect(
+    x * cellSize,
+    y * cellSize,
+    cellSize,
+    cellSize
+  );
+
+  ctx.strokeStyle = '#ddd';
+  ctx.strokeRect(
+    x * cellSize,
+    y * cellSize,
+    cellSize,
+    cellSize
+  );
+}
+
 function clearCanvas() {
   initCanvas();
 }
 
-// 切换橡皮擦
 function toggleEraser() {
   state.isEraser = !state.isEraser;
   btnEraser.classList.toggle('active', state.isEraser);
 }
 
-// 页面加载完成后初始化
 window.addEventListener('DOMContentLoaded', init);
-
-// 单元测试导出模块
-/* istanbul ignore next */
-if (__JEST__ && typeof module !== 'undefined') {
-  module.exports = {
-    init,
-    initCanvas,
-    renderGrid,
-    drawCell,
-    stopDrawing,
-    clearCanvas,
-    toggleEraser,
-    state
-  };
-}
