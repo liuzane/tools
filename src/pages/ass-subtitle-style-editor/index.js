@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 function onParseInputTriggered(event) {
   const value = event.target.value;
+  event.target.style.display = 'none';
   const { formats, styles } = parser(value);
   const settingContainerElement = document.getElementById(ELEMENT_ID.SettingContainer);
   settingContainerElement.style.display = 'block';
@@ -64,7 +65,8 @@ function onParseInputTriggered(event) {
   }
   const screenElement = document.getElementById(ELEMENT_ID.Screen);
   screenElement.style.display = 'block';
-  event.target.style.display = 'none';
+  console.log(styles);
+  onGetDataClick();
 }
 
 
