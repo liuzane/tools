@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="<%= lang %>">
+<%- 
+  include('../../layout/head.ejs', {
+    title: _t('title'),
+    css: [
+      '/css/reset.css',
+      '/css/global.css',
+      '/css/layout.css',
+      `/css/${name}.css`,
+    ]
+  });
+%>
+<body>
+  <div class="container">
+    <aside class="aside">
+      <%- include('../../layout/menus.ejs') %>
+    </aside>
+
+    <main class="main">
+      <%- include('../../layout/title.ejs', { title: _t('title') }) %>
+      <div class="pixel-canvas">
+        <div class="pixel-canvas__header">
+          <div class="pixel-canvas__controls">
+            <input type="color" id="color-picker" value="#000000" class="pixel-canvas__color">
+            <button id="btn-clear" class="pixel-canvas__btn">清空</button>
+            <button id="btn-eraser" class="pixel-canvas__btn">橡皮擦</button>
+            <select id="grid-size" class="pixel-canvas__select">
+              <option value="8">8x8</option>
+              <option value="16" selected>16x16</option>
+              <option value="24">24x24</option>
+              <option value="32">32x32</option>
+            </select>
+          </div>
+        </div>
+        <div id="grid-container" class="pixel-canvas__grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/<%- name %>.js"></script>
+</body>
+</html>

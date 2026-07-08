@@ -3,7 +3,8 @@
   "cancel": "Cancel",
   "menus": {
     "home": "Home",
-    "mcc-query": "MCC Query",
-    "credit-card-swiping-plan": "Credit Card Swiping Plan"
+    "pixel-canvas": "Pixel Canvas",
+    "credit-card-swiping-plan": "Credit Card Swiping Plan",
+    "mcc-query": "MCC Query"
   }
 }
