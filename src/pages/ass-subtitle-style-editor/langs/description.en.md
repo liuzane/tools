@@ -1,157 +1,123 @@
-### 说明
 
-一个完整的样式定义行如下：
-
-`Style: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding`
-
-1. `Name`（名称）
-
-  **说明：** 样式的唯一标识符。在字幕事件行中通过这个名称来引用样式。
-
-  **示例：** `Default`, `Title`, `MainCharacter`, `TopComment`
-
-2. `Fontname`（字体名称）
-
-  **说明：** 指定字幕使用的字体。必须使用系统内已安装的字体名称。
-
-  **示例：** `Arial`, `Microsoft YaHei`, `SimSun`, `Times New Roman`
-
-3. `Fontsize`（字体大小）
-
-  **说明：** 字体的高度，单位为像素。
-
-  **示例：** `20`, `36`, `48`
-
-4. `PrimaryColour`（主要颜色）
-
-  **说明：** 字幕正文的主要颜色。通常指字体填充色。
-
-  **格式：** `BBGGRR`（蓝-绿-红，十六进制），**注意顺序是BGR，不是RGB**。
-
-  **Alpha通道：** 在某些实现中，颜色后可以跟一个Alpha值（透明度），格式为`&HBBGGRR&`，Alpha值在`&H`之后，格式为`AABBGGRR`。
-
-  **示例：**
-    *   `&H000000&` - 黑色
-    *   `&HFFFFFF&` - 白色
-    *   `&HFF0000&` - 蓝色（因为BGR顺序）
-    *   `&H0000FF&` - 红色
-
-5. `SecondaryColour`（次要颜色）
-
-  **说明：** 在卡拉OK效果中，用于表示尚未演唱部分的颜色。在非卡拉OK情况下，此属性通常不使用，但必须定义。
-
-6. `OutlineColour`（边框颜色）
-
-  **说明：** 字幕文字描边的颜色。
-
-7. `BackColour`（背景/阴影颜色）
-
-  **说明：** 字幕文字阴影的颜色。
-
-8. `Bold`（粗体）
-
-  **说明：** 是否启用粗体。
-
-  **取值：** `-1` 表示开启（是），`0` 表示关闭（否）。
-
-9. `Italic`（斜体）
-
-  **说明：** 是否启用斜体。
-
-  **取值：** `-1` 表示开启（是），`0` 表示关闭（否）。
-
-10. `Underline`（下划线）
-
-  **说明：** 是否启用下划线。
-
-  **取值：** `-1` 表示开启（是），`0` 表示关闭（否）。
-
-11. `StrikeOut`（删除线）
-
-  **说明：** 是否启用删除线。
-
-  **取值：** `-1` 表示开启（是），`0` 表示关闭（否）。
-
-12. `ScaleX`（横向缩放）
-
-  **说明：** 文字的宽度缩放比例。以100为基准（100%）。
-
-  **示例：** `100`（正常），`150`（宽度为正常的1.5倍），`80`（宽度为正常的0.8倍）。
-
-13. `ScaleY`（纵向缩放）
-
-  **说明：** 文字的高度缩放比例。以100为基准（100%）。
-
-  **示例：** `100`（正常），`150`（高度为正常的1.5倍），`80`（高度为正常的0.8倍）。
-
-14. `Spacing`（字间距）
-
-  **说明：** 字符之间的额外间距，单位为像素。可以为负数。
-
-  **示例：** `0`（正常），`2`（增加2像素间距），`-1`（减少1像素间距）。
-
-15. `Angle`（旋转角度）
-
-  **说明：** 文字围绕Z轴（垂直于屏幕）旋转的角度，单位为度。逆时针方向为正。
-
-  **示例：** `0`（不旋转），`45`（逆时针旋转45度），`-90`（顺时针旋转90度）。
-
-16. `BorderStyle`（边框样式）
-
-  **说明：** 这是一个非常重要的属性，它决定了字幕的渲染模式。
-
-  **取值：**
-    *   `1`： **带有阴影的描边**。这是最常用、最清晰的模式。文字先描边，再在后方/下方添加阴影。
-    *   `3`： **不透明框**。文字显示在一个不透明的矩形框内，矩形框的颜色由`BackColour`决定。常用于确保字幕在任何背景下都清晰可读。
-    *   `4`： **仅描边，无阴影**。
-
-17. `Outline`（描边粗细）
-
-  **说明：** 当`BorderStyle`为1或4时，文字描边的宽度，单位为像素。
-
-  **示例：** `1`（细描边），`3`（粗描边）。通常`2`或`3`是比较通用的选择。
-
-18. `Shadow`（阴影距离）
-
-  **说明：** 当`BorderStyle`为1时，文字阴影的偏移距离，单位为像素。
-
-  **示例：** `0`（无阴影），`2`（阴影在右下偏移2像素），`-2`（阴影在左上偏移2像素）。
-
-19. `Alignment`（对齐方式）
-
-  **说明：** 字幕在屏幕上的对齐方式。这是一个数字编码，非常重要。
-
-  **取值（数字编码含义）：**
-    *   `1`： 底部左对齐
-    *   `2`： 底部居中对齐
-    *   `3`： 底部右对齐
-    *   `4`： 中部左对齐
-    *   `5`： 中部居中对齐
-    *   `6`： 中部右对齐
-    *   `7`： 顶部左对齐
-    *   `8`： 顶部居中对齐
-    *   `9`： 顶部右对齐
-
-  **注意：** 某些播放器或脚本也使用`10+`的数字来表示“相对于字幕Margin”的对齐，但`1-9`是最通用和标准的。
-
-20. `MarginL`, `MarginR`, `MarginV`（边距）
-
-  **说明：** 定义字幕的“安全区域”，单位为像素。
-    *   `MarginL`： 左边距。字幕距离屏幕左边缘的最小距离。
-    *   `MarginR`： 右边距。字幕距离屏幕右边缘的最小距离。
-    *   `MarginV`： 垂直边距。根据`Alignment`的不同，含义不同：
-        *   如果对齐方式是`1, 2, 3`（底部对齐），它表示距离屏幕底部的距离。
-        *   如果对齐方式是`7, 8, 9`（顶部对齐），它表示距离屏幕顶部的距离。
-        *   如果对齐方式是`4, 5, 6`（中间对齐），它通常被忽略。
-
-21. `Encoding`（编码）
-
-  **说明：** 字体所使用的字符编码。这个属性在现代应用中已较少使用，因为Unicode（如UTF-8）已成为标准。
-
-  **示例：**
-    *   `0`： ANSI（如GB2312, Big5）
-    *   `1`： Default（默认）
-    *   `128`： Shift-JIS（日文）
-    *   `134`： GB2312（简体中文）
-    *   `136`： Big5（繁体中文）
-    *   `1` 或 `0` 通常可以应付大多数情况，但推荐将字幕文件保存为UTF-8格式。
+### Explanation
+
+A complete format line is as follows:
+
+`Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding`
+
+A complete style line is as follows:
+
+`Style: Default,Microsoft YaHei,24,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,1,1,2,5,5,5,1`
+
+The contents of the format line and the style line correspond one‑to‑one. The format line defines how each field in the style is to be interpreted; therefore, the format line must appear before any style lines, and the field names listed in it must be spelled correctly. The format line allows new fields to be added to the script format in the future, and it allows older software to read the fields it recognises – even if the field order changes. It includes the following 23 fields:
+
+1. **Name**  
+   **Description:** The unique identifier for the style. Subtitle event lines reference this name to apply the style.  
+   **Examples:** `Default`, `Title`, `MainCharacter`, `TopComment`
+
+2. **Fontname**  
+   **Description:** Specifies the font used for subtitles. Must be an installed system font name.  
+   **Examples:** `Arial`, `Microsoft YaHei`, `SimSun`, `Times New Roman`
+
+3. **Fontsize**  
+   **Description:** The height of the font, in pixels.  
+   **Examples:** `20`, `36`, `48`
+
+4. **PrimaryColour**  
+   **Description:** The main colour of the subtitle text, usually the fill colour.  
+   **Format:** `BBGGRR` (Blue‑Green‑Red, hexadecimal). **Note the order is BGR, not RGB.**  
+   **Alpha channel:** In some implementations, an alpha (transparency) value can follow the colour, formatted as `&HBBGGRR&`, with the alpha value placed after `&H` as `AABBGGRR`.  
+   **Examples:**  
+   - `&H000000&` – black  
+   - `&HFFFFFF&` – white  
+   - `&HFF0000&` – blue (because of BGR order)  
+   - `&H0000FF&` – red
+
+5. **SecondaryColour**  
+   **Description:** In karaoke effects, this colour is used for the portion of the text that has not yet been sung. In non‑karaoke situations, this attribute is generally unused but must still be defined.
+
+6. **OutlineColour**  
+   **Description:** The colour of the outline (stroke) around the subtitle text.
+
+7. **BackColour**  
+   **Description:** The colour of the shadow behind the subtitle text.
+
+8. **Bold**  
+   **Description:** Whether bold style is enabled.  
+   **Values:** `-1` = enabled (yes), `0` = disabled (no).
+
+9. **Italic**  
+   **Description:** Whether italic style is enabled.  
+   **Values:** `-1` = enabled (yes), `0` = disabled (no).
+
+10. **Underline**  
+    **Description:** Whether underline is enabled.  
+    **Values:** `-1` = enabled (yes), `0` = disabled (no).
+
+11. **StrikeOut**  
+    **Description:** Whether strikethrough is enabled.  
+    **Values:** `-1` = enabled (yes), `0` = disabled (no).
+
+12. **ScaleX**  
+    **Description:** Horizontal scaling of the text width, with 100 as the base (100%).  
+    **Examples:** `100` (normal), `150` (1.5× width), `80` (1.8× width). *(Note: as written in the original)*
+
+13. **ScaleY**  
+    **Description:** Vertical scaling of the text height, with 100 as the base (100%).  
+    **Examples:** `100` (normal), `150` (1.5× height), `80` (1.8× height). *(Note: as written in the original)*
+
+14. **Spacing**  
+    **Description:** Extra spacing between characters, in pixels. Can be negative.  
+    **Examples:** `0` (normal), `2` (adds 2 pixels), `-1` (reduces by 1 pixel).
+
+15. **Angle**  
+    **Description:** The rotation angle of the text around the Z‑axis (perpendicular to the screen), in degrees. Positive values denote counter‑clockwise rotation.  
+    **Examples:** `0` (no rotation), `45` (counter‑clockwise 45°), `-90` (clockwise 90°).
+
+16. **BorderStyle**  
+    **Description:** A very important attribute that determines the rendering mode of the subtitle.  
+    **Values:**  
+    - `1`: **Outline with shadow** – the most common and clearest mode. The text is outlined first, then a shadow is added behind/below it.  
+    - `3`: **Opaque box** – the text appears inside an opaque rectangular box; the box colour is determined by `BackColour`. Often used to ensure readability against any background.  
+    - `4`: **Outline only, no shadow**.
+
+17. **Outline**  
+    **Description:** When `BorderStyle` is `1` or `4`, the width of the text outline in pixels.  
+    **Examples:** `1` (thin outline), `3` (thick outline). Usually `2` or `3` are common choices.
+
+18. **Shadow**  
+    **Description:** When `BorderStyle` is `1`, the offset distance of the text shadow in pixels.  
+    **Examples:** `0` (no shadow), `2` (shadow offset 2 pixels down‑right), `-2` (shadow offset 2 pixels up‑left).
+
+19. **Alignment**  
+    **Description:** The alignment of the subtitle on the screen. This is a numeric code and is very important.  
+    **Values (numeric meanings):**  
+    - `1` – Bottom left  
+    - `2` – Bottom center  
+    - `3` – Bottom right  
+    - `4` – Middle left  
+    - `5` – Middle center  
+    - `6` – Middle right  
+    - `7` – Top left  
+    - `8` – Top center  
+    - `9` – Top right  
+    **Note:** Some players or scripts may use numbers `10+` to indicate alignment relative to the subtitle margins, but `1–9` are the most universal and standard.
+
+20. **MarginL, MarginR, MarginV** (Margins)  
+    **Description:** Define the “safe area” for subtitles, in pixels.  
+    - `MarginL`: Left margin – the minimum distance from the left edge of the screen.  
+    - `MarginR`: Right margin – the minimum distance from the right edge of the screen.  
+    - `MarginV`: Vertical margin – its meaning depends on `Alignment`:  
+      - For bottom alignment (`1, 2, 3`): distance from the bottom of the screen.  
+      - For top alignment (`7, 8, 9`): distance from the top of the screen.  
+      - For middle alignment (`4, 5, 6`): usually ignored.
+
+21. **Encoding**  
+    **Description:** The character encoding used by the font. This attribute is less used in modern applications, as Unicode (e.g., UTF‑8) has become the standard.  
+    **Examples:**  
+    - `0` – ANSI (e.g., GB2312, Big5)  
+    - `1` – Default  
+    - `128` – Shift‑JIS (Japanese)  
+    - `134` – GB2312 (Simplified Chinese)  
+    - `136` – Big5 (Traditional Chinese)  
+    - `1` or `0` usually works for most cases, but it is recommended to save subtitle files in UTF‑8 format.

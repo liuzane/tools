@@ -25,11 +25,14 @@
       <textarea id="parse-input"></textarea>
       <div id="setting-container"></div>
       <button onclick="onGetDataClick()">获取数据</button>
-      <div id="screen">
-        <span id="subtitle">示例字幕</span>
-      </div>
+      <div id="screen"></div>
       <div class="markdown-container">
-        <%- include('./description.zh.ejs') %>
+        <%
+          const fs = require('fs');
+          const marked = require('marked');
+          const md = fs.readFileSync(`${dirPath}/langs/description.${lang}.md`, 'utf8');
+        %>
+        <%- marked.parse(md) %>
       </div>
     </main>
   </div>
