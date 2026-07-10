@@ -11,6 +11,10 @@
     "deploy": "npm run test && npm run build && npm run git-push",
     "prepare": "husky"
   },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0"
+  },
   "devDependencies": {
     "chalk": "^4.1.2",
     "ejs": "^3.1.10",

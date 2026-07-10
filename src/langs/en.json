@@ -3,6 +3,7 @@
   "cancel": "Cancel",
   "menus": {
     "home": "Home",
+    "crypto": "Crypto Tools",
     "mcc-query": "MCC Query",
     "credit-card-swiping-plan": "Credit Card Swiping Plan"
   }

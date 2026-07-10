@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="<%= lang %>">
+<%- 
+  include('../../layout/head.ejs', {
+    title: _t('title'),
+    css: [
+      '/css/reset.css',
+      '/css/global.css',
+      '/css/layout.css',
+      `/css/${name}.css`,
+    ]
+  });
+%>
+<body>
+  <div class="container">
+    <aside class="aside">
+      <%- include('../../layout/menus.ejs') %>
+    </aside>
+
+    <main class="main">
+      <%- include('../../layout/title.ejs', { title: _t('title') }) %>
+      
+      <div class="crypto-tool">
+        <!-- 算法选择 -->
+        <div class="crypto-tool__section">
+          <label class="crypto-tool__label">加密算法</label>
+          <select id="algorithm-select" class="crypto-tool__select">
+            <option value="des-ecb">DES-ECB</option>
+            <option value="des-cbc">DES-CBC (MD5派生)</option>
+          </select>
+        </div>
+
+        <!-- 操作模式 -->
+        <div class="crypto-tool__section">
+          <label class="crypto-tool__label">操作模式</label>
+          <div class="crypto-tool__radio-group">
+            <label class="crypto-tool__radio-label">
+              <input type="radio" name="mode" value="encrypt" checked> 加密
+            </label>
+            <label class="crypto-tool__radio-label">
+              <input type="radio" name="mode" value="decrypt"> 解密
+            </label>
+          </div>
+        </div>
+
+        <!-- 密钥输入 -->
+        <div class="crypto-tool__section">
+          <label class="crypto-tool__label">密钥 <span class="crypto-tool__hint">(8位，不足自动补全)</span></label>
+          <input type="text" id="key-input" class="crypto-tool__input" placeholder="请输入密钥" value="">
+        </div>
+
+        <!-- 输入内容 -->
+        <div class="crypto-tool__section">
+          <label class="crypto-tool__label">输入内容</label>
+          <textarea id="input-text" class="crypto-tool__textarea" placeholder="请输入要加密或解密的内容"></textarea>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="crypto-tool__actions">
+          <button id="btn-execute" class="crypto-tool__btn crypto-tool__btn--primary">执行</button>
+          <button id="btn-copy" class="crypto-tool__btn">复制结果</button>
+          <button id="btn-clear" class="crypto-tool__btn">清空</button>
+        </div>
+
+        <!-- 输出结果 -->
+        <div class="crypto-tool__section">
+          <label class="crypto-tool__label">输出结果</label>
+          <textarea id="output-text" class="crypto-tool__textarea crypto-tool__textarea--result" readonly placeholder="结果将显示在这里"></textarea>
+        </div>
+
+        <!-- 错误提示 -->
+        <div id="error-message" class="crypto-tool__error"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="<%- ORIGIN_URL %>/<%- OUTPUT_JS_DIR %>/<%- name %>.js"></script>
+</body>
+</html>

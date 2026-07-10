@@ -4,6 +4,10 @@
     "url": "/home.html"
   },
   {
+    "title": "menus.crypto",
+    "url": "/crypto.html"
+  },
+  {
     "title": "menus.mcc-query",
     "url": "/mcc-query.html"
   },
